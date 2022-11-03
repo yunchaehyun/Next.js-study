@@ -7,12 +7,12 @@ import LoginFrom from "./LoginForm";
 import styled from "styled-components";
 
 const SearchInput = styled(Input.Search)`
-  vertical-align: 'middle';
+  vertical-align: "middle";
 `;
 
 // app.js와 다르게 AppLayout.js는 일부만 공통인 애들
 const AppLayout = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <div>
@@ -22,20 +22,22 @@ const AppLayout = ({ children }) => {
         </Menu.Item>
         <Menu.Item>
           <Link href="/profile">프로필</Link>
+        </Menu.Item>{" "}
+        <Menu.Item>
+          <SearchInput enterButton></SearchInput>
         </Menu.Item>
         <Menu.Item>
           <Link href="/signup">회원가입</Link>
         </Menu.Item>
-        <Menu.Item>
-          <SearchInput
-            enterButton
-          ></SearchInput>
-        </Menu.Item>
       </Menu>
-      <Row gutter = {8}>
+      <Row gutter={8}>
         {/* xs: 모바일 md: 데스크탑 */}
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile/> : <LoginFrom setIsLoggedIn={setIsLoggedIn}/> }
+          {isLoggedIn ? (
+            <UserProfile setIsLoggedIn={setIsLoggedIn} />
+          ) : (
+            <LoginFrom setIsLoggedIn={setIsLoggedIn} />
+          )}
         </Col>
         <Col xs={24} md={12}>
           {children}

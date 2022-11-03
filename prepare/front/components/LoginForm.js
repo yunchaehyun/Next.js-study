@@ -2,9 +2,14 @@ import React, { useCallback, useState, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+
 const ButtonWrapper = styled.div`
   margin-top: 10px;
+`;
+
+const FormWrapper = styled(Form)`
+  padding: 10px;
 `;
 
 const LoginForm = ({ setIsLoggedIn }) => {
@@ -30,7 +35,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
   return (
     <>
-      <Form onFinish={onSubmitForm}>
+      <FormWrapper onFinish={onSubmitForm}>
         <div>
           <label htmlFor="user-id">아이디</label>
           <br />
@@ -54,10 +59,11 @@ const LoginForm = ({ setIsLoggedIn }) => {
             <Button>회원가입</Button>
           </Link>
         </ButtonWrapper>
-      </Form>
+      </FormWrapper>
     </>
   );
 };
+
 LoginForm.propTypes = {
   // node.js가 아니라 react의 node임
   setIsLoggedIn: PropTypes.node.isRequired,
