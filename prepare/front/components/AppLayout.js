@@ -4,6 +4,11 @@ import React, { useState } from "react";
 import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "./UserProfile";
 import LoginFrom from "./LoginForm";
+import styled from "styled-components";
+
+const SearchInput = styled(Input.Search)`
+  vertical-align: 'middle';
+`;
 
 // app.js와 다르게 AppLayout.js는 일부만 공통인 애들
 const AppLayout = ({ children }) => {
@@ -22,10 +27,9 @@ const AppLayout = ({ children }) => {
           <Link href="/signup">회원가입</Link>
         </Menu.Item>
         <Menu.Item>
-          <Input.Search
+          <SearchInput
             enterButton
-            style={{ verticalAlign: "middle" }}
-          ></Input.Search>
+          ></SearchInput>
         </Menu.Item>
       </Menu>
       <Row gutter = {8}>
