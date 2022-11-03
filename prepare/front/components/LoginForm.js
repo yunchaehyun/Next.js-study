@@ -2,13 +2,12 @@ import React, { useCallback, useState, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-
+import PropTypes from 'prop-types';
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
 
-
-const LoginForm = () => {
+const LoginForm = ({ setIsLoggedIn }) => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,13 +19,18 @@ const LoginForm = () => {
     setPassword(e.target.value);
   }, []);
 
-  const style = useMemo (() => ({marginTop: 10}),[]);
+  const style = useMemo(() => ({ marginTop: 10 }), []);
   // 컴포넌트에 props로 넘겨주는 함수는 꼭 useCallback => 최적화를 위해서
   // 리렌더링돼도 같은 객체 유지 => 리렌더링 최적화
 
+  const onSubmitForm = useCallback(() => {
+    console.log(id, password);
+    setIsLoggedIn(true);
+  }, [id, password]);
+
   return (
     <>
-      <Form>
+      <Form onFinish={onSubmitForm}>
         <div>
           <label htmlFor="user-id">아이디</label>
           <br />
@@ -53,6 +57,10 @@ const LoginForm = () => {
       </Form>
     </>
   );
+};
+LoginForm.propTypes = {
+  // node.js가 아니라 react의 node임
+  setIsLoggedIn: PropTypes.node.isRequired,
 };
 
 export default LoginForm;

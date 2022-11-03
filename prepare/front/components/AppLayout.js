@@ -35,7 +35,7 @@ const AppLayout = ({ children }) => {
       <Row gutter = {8}>
         {/* xs: 모바일 md: 데스크탑 */}
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile/> : <LoginFrom/> }
+          {isLoggedIn ? <UserProfile/> : <LoginFrom setIsLoggedIn={setIsLoggedIn}/> }
         </Col>
         <Col xs={24} md={12}>
           {children}
