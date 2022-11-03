@@ -1,10 +1,14 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Menu, Input, Row, Col } from "antd";
+import UserProfile from "./UserProfile";
+import LoginFrom from "./LoginForm";
 
 // app.js와 다르게 AppLayout.js는 일부만 공통인 애들
 const AppLayout = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+
   return (
     <div>
       <Menu mode="horizontal">
@@ -24,10 +28,10 @@ const AppLayout = ({ children }) => {
           ></Input.Search>
         </Menu.Item>
       </Menu>
-      <Row>
+      <Row gutter = {8}>
         {/* xs: 모바일 md: 데스크탑 */}
         <Col xs={24} md={6}>
-          왼쪽 메뉴
+          {isLoggedIn ? <UserProfile/> : <LoginFrom/> }
         </Col>
         <Col xs={24} md={12}>
           {children}
