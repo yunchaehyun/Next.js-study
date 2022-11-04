@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import "antd/dist/antd.css";
 import Head from "next/head";
+import wrapper from '../store/configureStore';
 
 // app.js는 전체 공통 부분
 const App = ({ Component }) => {
@@ -19,4 +20,5 @@ const App = ({ Component }) => {
 App.propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
-export default App;
+
+export default wrapper.withRedex(App);

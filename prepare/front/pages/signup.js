@@ -41,8 +41,8 @@ const Signup = () => {
     if (!term) {
       return setTermError(true);
     }
-    console.log(id,nickname,password);
-  }, [password,passwordCheck,term]);
+    console.log(id, nickname, password);
+  }, [password, passwordCheck, term]);
 
   return (
     <>
@@ -65,6 +65,7 @@ const Signup = () => {
             <label htmlFor="user-password">비밀번호</label>
             <br />
             <Input
+              type="password"
               name="user-password"
               value={password}
               required
@@ -75,6 +76,7 @@ const Signup = () => {
             <label htmlFor="user-passwordCheck">비밀번호 확인</label>
             <br />
             <Input
+              type="password"
               name="user-passwordCheck"
               value={passwordCheck}
               required

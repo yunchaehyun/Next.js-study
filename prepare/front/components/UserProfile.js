@@ -3,6 +3,8 @@ import { Avatar, Card, Button } from "antd";
 import PropTypes from 'prop-types';
 
 const UserProfile = ({setIsLoggedIn}) => {
+
+
     const onLogOut = useCallback(() => {
        setIsLoggedIn(false); 
     },[]);
