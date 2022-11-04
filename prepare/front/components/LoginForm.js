@@ -1,8 +1,9 @@
-import React, { useCallback, useState, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import useInput from '../hooks/useInput';
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -13,16 +14,8 @@ const FormWrapper = styled(Form)`
 `;
 
 const LoginForm = ({ setIsLoggedIn }) => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
-
-  const onChangeId = useCallback((e) => {
-    setId(e.target.value);
-  }, []);
-
-  const onChangePassword = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
+  const [id, onChangeId] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
   const style = useMemo(() => ({ marginTop: 10 }), []);
   // 컴포넌트에 props로 넘겨주는 함수는 꼭 useCallback => 최적화를 위해서
@@ -66,7 +59,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
 LoginForm.propTypes = {
   // node.js가 아니라 react의 node임
-  setIsLoggedIn: PropTypes.node.isRequired,
+  setIsLoggedIn: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
