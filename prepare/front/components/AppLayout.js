@@ -15,6 +15,7 @@ const SearchInput = styled(Input.Search)`
 const AppLayout = ({ children }) => {
   //redux에서 받아오는거, isLoggedIn이 바뀌면 컴포넌트가 알아서 리렌더링됨
   const isLoggedIn = useSelector((state)=> state.user.isLoggedIn);
+  // const isLoggedIn = useSelector((state)=> state.user);
 
   return (
     <div>
