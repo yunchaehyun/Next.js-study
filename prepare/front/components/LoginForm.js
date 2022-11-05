@@ -26,7 +26,7 @@ const LoginForm = () => {
   // 리렌더링돼도 같은 객체 유지 => 리렌더링 최적화
 
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
+    // console.log(id, password);
     dispatch(loginAction({id,password}));
   }, [id, password]);
 

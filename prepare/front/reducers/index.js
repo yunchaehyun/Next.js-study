@@ -49,6 +49,13 @@ changeNickname("chae");
 // (이전상태, 액션) 로 다음상태를 만들어주는게 reducer
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case HYDRATE:
+      console.log("HYDRATE", action);
+      return {
+        // 참조 관계 때문에 객체 생성
+        ...state,
+        ...action.payload,
+      };
     // nickname을 바꾸려고 할 경우
     case "CHANGE_NICKNAME":
       return {
@@ -80,6 +87,9 @@ const rootReducer = (state = initialState, action) => {
           user: null,
         },
       };
+      // 초기화
+    default:
+      return state;
   }
 };
 
