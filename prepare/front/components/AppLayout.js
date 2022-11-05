@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "./UserProfile";
 import LoginFrom from "./LoginForm";
 import styled from "styled-components";
+import {useSelector} from 'react-redux';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: "middle";
@@ -12,7 +13,8 @@ const SearchInput = styled(Input.Search)`
 
 // app.js와 다르게 AppLayout.js는 일부만 공통인 애들
 const AppLayout = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //redux에서 받아오는거, isLoggedIn이 바뀌면 컴포넌트가 알아서 리렌더링됨
+  const isLoggedIn = useSelector((state)=> state.user.isLoggedIn);
 
   return (
     <div>
@@ -34,9 +36,10 @@ const AppLayout = ({ children }) => {
         {/* xs: 모바일 md: 데스크탑 */}
         <Col xs={24} md={6}>
           {isLoggedIn ? (
-            <UserProfile setIsLoggedIn={setIsLoggedIn} />
+            // 이제 setIsLoggedIn={setIsLoggedIn} 이런거 안넘겨줘도됨.
+            <UserProfile/>
           ) : (
-            <LoginFrom setIsLoggedIn={setIsLoggedIn} />
+            <LoginFrom />
           )}
         </Col>
         <Col xs={24} md={12}>

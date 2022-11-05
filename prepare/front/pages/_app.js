@@ -21,4 +21,4 @@ App.propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
 
-export default wrapper.withRedex(App);
+export default wrapper.withRedux(App);
