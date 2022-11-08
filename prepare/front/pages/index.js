@@ -2,6 +2,7 @@ import AppLayout from "../components/AppLayout";
 import React from "react";
 import { useSelector } from "react-redux";
 import PostForm from "../components/PostForm";
+import PostCard from "../components/PostCard";
 
 const Home = () => {
   // useSelector를 사용해 redux에 있는 상태 가져오기
@@ -11,9 +12,9 @@ const Home = () => {
     <AppLayout>
       {/* 게시물 작성 폼은 로그인한 사용자에게만 보이게 한다. */}
       {isLoggedIn && <PostForm />}
-      {/* {mainPosts.map((post) => (
+      {mainPosts.map((post) => (
         <PostCard key={post.id} post={post} />
-      ))} */}
+      ))}
     </AppLayout>
   );
 };

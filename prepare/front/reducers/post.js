@@ -40,7 +40,7 @@ export const initialState = {
   ],
   // mainPost array 끝
   // imagePath: 이미지 업로드할 때 이미지 경로들 저장하는 변수
-  imagePath: [],
+  imagePaths: [],
   // postAdded: 게시글 추가 완료 여부
   postAdded: false,
 };
