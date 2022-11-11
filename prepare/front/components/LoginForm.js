@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import useInput from "../hooks/useInput";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../reducers/user";
@@ -61,9 +60,5 @@ const LoginForm = () => {
   );
 };
 
-LoginForm.propTypes = {
-  // node.js가 아니라 react의 node임
-  setIsLoggedIn: PropTypes.func.isRequired,
-};
 
 export default LoginForm;
