@@ -1,4 +1,4 @@
-import { Button, Card, Popover, Avatar } from "antd";
+import { Button, Card, Popover, Avatar, List, Comment } from "antd";
 import {
   RetweetOutlined,
   HeartTwoTone,
@@ -10,6 +10,7 @@ import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import PostImages from "./PostImages";
+import CommentForm from './CommentForm';
 
 // 게시글 구현 코드
 const PostCard = ({ post }) => {
@@ -67,9 +68,28 @@ const PostCard = ({ post }) => {
             description={post.content}
           ></Card.Meta>
         </Card>
-        {commentFormOpened && <div>댓글 부분</div>}
-        {/* <CommentForm />
-        <Comment /> */}
+        {commentFormOpened && (
+          <div>
+            {/* 게시글의 id를 commentform이 받아야 하기 때문에 post를 넘겨줌.
+            댓글은 게시글에 상속되기 때문 */}
+            <CommentForm post = {post} />
+            <List
+              header={`${post.Comment.length}개의 댓글`}
+              itemLayout="horizontal"
+              dataSource={post.Comment}
+              renderItem={(item) => (
+                // item은 post.Comments의 객체 하나하나를 의미함
+                <li>
+                  <Comment
+                    author={item.User.nickname}
+                    avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                    content={item.content}
+                  ></Comment>
+                </li>
+              )}
+            />
+          </div>
+        )}
       </div>
     </>
   );
