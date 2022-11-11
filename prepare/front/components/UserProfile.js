@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { Avatar, Card, Button } from "antd";
-import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import {logoutAction} from '../reducers/user'
 
@@ -27,8 +26,4 @@ const UserProfile = () => {
   );
 };
 
-UserProfile.propTypes = {
-     // node.js가 아니라 react의 node임
-  setIsLoggedIn: PropTypes.node.isRequired,
-}
 export default UserProfile;
