@@ -5,21 +5,39 @@ import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "./UserProfile";
 import LoginFrom from "./LoginForm";
 import styled from "styled-components";
-import {useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
+import { createGlobalStyle } from "styled-components";
 
 const SearchInput = styled(Input.Search)`
   vertical-align: "middle";
 `;
 
+const Global = createGlobalStyle`
+.ant-row{
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.ant-col:first-child {
+  padding-left: 0 !important;
+}
+
+.ant-col:last-child{
+  padding-right: 0 !important;
+}
+
+`;
+
 // app.js와 다르게 AppLayout.js는 일부만 공통인 애들
 const AppLayout = ({ children }) => {
   //redux에서 받아오는거, isLoggedIn이 바뀌면 컴포넌트가 알아서 리렌더링됨
-  const isLoggedIn = useSelector((state)=> state.user.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   // 구조분해할당
   // const isLoggedIn = useSelector((state)=> state.user);
 
   return (
     <div>
+      <Global/>
       <Menu mode="horizontal">
         <Menu.Item>
           <Link href="/">노드버드</Link>
@@ -39,7 +57,7 @@ const AppLayout = ({ children }) => {
         <Col xs={24} md={6}>
           {isLoggedIn ? (
             // 이제 setIsLoggedIn={setIsLoggedIn} 이런거 안넘겨줘도됨.
-            <UserProfile/>
+            <UserProfile />
           ) : (
             <LoginFrom />
           )}

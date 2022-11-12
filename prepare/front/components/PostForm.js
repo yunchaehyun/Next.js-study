@@ -12,14 +12,13 @@ const PostForm = () => {
   }, []);
   const onSubmit = useCallback(() => {
     dispatch(addPost);
-    setText('');
+    setText("");
   }, []);
   const [text, setText] = useState("");
   const imageInput = useRef();
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
-
-  },[imageInput.current]);
+  }, [imageInput.current]);
 
   return (
     <>
