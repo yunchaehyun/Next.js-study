@@ -1,11 +1,16 @@
 import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { PlusOutlined } from "@ant-design/icons";
+// 폴더는 자동으로 Index를 불러온다.
+import ImagesZoom from "./imagesZoom";
 
 const PostImages = ({ images }) => {
   const [showImageZoom, setShowImagesZoom] = useState(false);
   const onZoom = useCallback(() => {
     setShowImagesZoom(true);
+  }, []);
+  const onClose = useCallback(() => {
+    setShowImagesZoom(false);
   }, []);
   if (images.length === 1) {
     return (
@@ -16,6 +21,7 @@ const PostImages = ({ images }) => {
           alt={images[0].src}
           onClick={onZoom}
         />
+        {showImageZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
   }
@@ -36,6 +42,7 @@ const PostImages = ({ images }) => {
           alt={images[0].src}
           onClick={onZoom}
         />
+        {showImageZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
   }
@@ -65,6 +72,7 @@ const PostImages = ({ images }) => {
           개의 사진 더보기
         </div>
       </div>
+      {showImageZoom && <ImagesZoom images={images} onClose={onClose} />}
     </>
   );
 };
