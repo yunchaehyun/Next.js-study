@@ -1,17 +1,15 @@
 import { all, fork, call, put, take } from "redux-saga/effects";
 import axios from "axios";
 
-function loginAPI() {
-  return axios.post("/api/login");
+function loginAPI(data) {
+  return axios.post("/api/login", data);
 }
 
-function* logIn() {
+function* logIn(action) {
   try {
-    yield put({
-      type: "LOG_IN_REQUEST",
-    });
     // axios를 통해 받은 결과
-    const result = yield call(loginAPI);
+    // loginAPI(action.data) 라고 생각하면 됨
+    const result = yield call(loginAPI, action.data);
     yield put({
       type: "LOG_IN_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
@@ -51,17 +49,18 @@ function* logOut() {
   }
 }
 
-function addPostAPI() {
-  return axios.post("/api/post");
+function addPostAPI(data) {
+    //data: 게시할 post에 대한 data
+  return axios.post("/api/post",data);
 }
 
-function* addPost() {
+function* addPost(action) {
   try {
     yield put({
       type: "ADD_POST_REQUEST",
     });
     // axios를 통해 받은 결과
-    const result = yield call(addPostAPI);
+    const result = yield call(addPostAPI,action.data);
     yield put({
       type: "ADD_POST_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
