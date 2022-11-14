@@ -7,17 +7,14 @@ import thunkMiddleware from 'redux-thunk';
 
 // 액션이 디스패치 되는걸 logging하는 middleware function
 const loggerMiddleware = ({dispatch,getState}) => (next) => (action) => {
-  if(typeof action === 'function') {
-    return action(dispatch, getState, extraArgument);
-  }
-
+  console.log(action);
   return next(action);
 };
 
 // store : state와 reducer를 포함한 개념이라고 보면 됨
 const configureStore = () => {
   // middleware 배열안에 saga나 thunk 같은걸 넣음
-  const middlewares = [thunkMiddleware];
+  const middlewares = [thunkMiddleware, loggerMiddleware];
   const enhancer =
     process.env.NODE_ENV === "production"
       ? // 배포용
