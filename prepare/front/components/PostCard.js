@@ -10,7 +10,8 @@ import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import PostImages from "./PostImages";
-import CommentForm from './CommentForm';
+import CommentForm from "./CommentForm";
+import PostCardContent from './PostCardContent';
 
 // 게시글 구현 코드
 const PostCard = ({ post }) => {
@@ -65,14 +66,14 @@ const PostCard = ({ post }) => {
           <Card.Meta
             avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
             title={post.User.nickname}
-            description={post.content}
+            description={<PostCardContent postData={post.content} />}
           ></Card.Meta>
         </Card>
         {commentFormOpened && (
           <div>
             {/* 게시글의 id를 commentform이 받아야 하기 때문에 post를 넘겨줌.
             댓글은 게시글에 상속되기 때문 */}
-            <CommentForm post = {post} />
+            <CommentForm post={post} />
             <List
               header={`${post.Comment.length}개의 댓글`}
               itemLayout="horizontal"
