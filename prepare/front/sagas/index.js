@@ -1,4 +1,13 @@
-import { all, fork, call, put, take } from "redux-saga/effects";
+import {
+  all,
+  fork,
+  call,
+  put,
+  takeEvery,
+  take,
+  takeLatest,
+  throttle,
+} from "redux-saga/effects";
 import axios from "axios";
 
 function loginAPI(data) {
@@ -50,8 +59,8 @@ function* logOut() {
 }
 
 function addPostAPI(data) {
-    //data: 게시할 post에 대한 data
-  return axios.post("/api/post",data);
+  //data: 게시할 post에 대한 data
+  return axios.post("/api/post", data);
 }
 
 function* addPost(action) {
@@ -60,7 +69,7 @@ function* addPost(action) {
       type: "ADD_POST_REQUEST",
     });
     // axios를 통해 받은 결과
-    const result = yield call(addPostAPI,action.data);
+    const result = yield call(addPostAPI, action.data);
     yield put({
       type: "ADD_POST_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
@@ -77,15 +86,15 @@ function* addPost(action) {
 function* watchLogin() {
   // 로그인 액션이 들어오면, login 함수를 실행
   // 들어올 때 까지 기다림. 이벤트리스너 같은 역할을 수행
-  yield take("LOG_IN_REQUEST", logIn);
+  yield takeLatest("LOG_IN_REQUEST", logIn);
 }
 
 function* watchLogOut() {
-  yield take("ADD_POST_REQUEST", logOut);
+  yield takeLatest("ADD_POST_REQUEST", logOut);
 }
 
 function* watchAddPost() {
-  yield take("ADD_POST_REQUEST", addPost);
+  yield takeLatest("ADD_POST_REQUEST", addPost);
 }
 
 export default function* rootSaga() {
