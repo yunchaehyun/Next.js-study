@@ -7,6 +7,7 @@ import {
   take,
   takeLatest,
   throttle,
+  delay,
 } from "redux-saga/effects";
 import axios from "axios";
 
@@ -16,9 +17,10 @@ function loginAPI(data) {
 
 function* logIn(action) {
   try {
+    yield delay(1000);
     // axios를 통해 받은 결과
     // loginAPI(action.data) 라고 생각하면 됨
-    const result = yield call(loginAPI, action.data);
+    // const result = yield call(loginAPI, action.data);
     yield put({
       type: "LOG_IN_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
@@ -39,19 +41,21 @@ function logOutAPI() {
 
 function* logOut() {
   try {
+    yield delay(1000);
+
     yield put({
-      type: "ADD_POST_REQUEST",
+      type: "LOG_OUT_REQUEST",
     });
     // axios를 통해 받은 결과
-    const result = yield call(logOutAPI);
+    // const result = yield call(logOutAPI);
     yield put({
-      type: "ADD_POST_SUCCESS",
+      type: "LOG_OUT_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
       data: result.data,
     });
   } catch (err) {
     yield put({
-      type: "ADD_POST_FAILURE",
+      type: "LOG_OUT_FAILURE",
       // 실패 결과는 err.response.data에 담겨 있음
       data: err.response.data,
     });
@@ -65,11 +69,13 @@ function addPostAPI(data) {
 
 function* addPost(action) {
   try {
+    yield delay(1000);
+
     yield put({
       type: "ADD_POST_REQUEST",
     });
     // axios를 통해 받은 결과
-    const result = yield call(addPostAPI, action.data);
+    // const result = yield call(addPostAPI, action.data);
     yield put({
       type: "ADD_POST_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
@@ -90,7 +96,7 @@ function* watchLogin() {
 }
 
 function* watchLogOut() {
-  yield takeLatest("ADD_POST_REQUEST", logOut);
+  yield takeLatest("LOG_OUT_REQUEST", logOut);
 }
 
 function* watchAddPost() {
