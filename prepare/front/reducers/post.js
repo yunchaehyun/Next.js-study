@@ -46,18 +46,21 @@ export const initialState = {
 };
 
 // 액션 이름을 상수로 빼줌.
-const ADD_POST = 'ADD_POST';
+export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
+export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
+export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
 
-export const addPost = {
-  type: ADD_POST, 
-}
+export const addPostRequestAction = (data) => ({
+  type: ADD_POST_REQUEST,
+  data,
+});
 
 const dummyPost = {
   id: 2,
-  content: '더미데이터입니다.',
+  content: "더미데이터입니다.",
   User: {
     id: 1,
-    nickname: '민정',
+    nickname: "민정",
   },
   Images: [],
   Comments: [],
@@ -65,11 +68,15 @@ const dummyPost = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_POST:
-    return {
-      ...state,
-      mainPosts: [dummyPost, ...state.mainPosts],
-    }
+    case ADD_POST_REQUEST:
+      return {};
+    case ADD_POST_SUCCESS:
+      return {
+        ...state,
+        mainPosts: [dummyPost, ...state.mainPosts],
+      };
+    case ADD_POST_FAILURE:
+      return {};
     default:
       return state;
   }

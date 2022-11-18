@@ -30,10 +30,10 @@ const Global = createGlobalStyle`
 
 // app.js와 다르게 AppLayout.js는 일부만 공통인 애들
 const AppLayout = ({ children }) => {
-  //redux에서 받아오는거, isLoggedIn이 바뀌면 컴포넌트가 알아서 리렌더링됨
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  //redux에서 받아오는거, logInComplete이 바뀌면 컴포넌트가 알아서 리렌더링됨
+  const logInComplete = useSelector((state) => state.user.logInComplete);
   // 구조분해할당
-  // const isLoggedIn = useSelector((state)=> state.user);
+  // const logInComplete = useSelector((state)=> state.user);
 
   return (
     <div>
@@ -55,8 +55,8 @@ const AppLayout = ({ children }) => {
       <Row gutter={8}>
         {/* xs: 모바일 md: 데스크탑 */}
         <Col xs={24} md={6}>
-          {isLoggedIn ? (
-            // 이제 setIsLoggedIn={setIsLoggedIn} 이런거 안넘겨줘도됨.
+          {logInComplete ? (
+            // 이제 setlogInComplete={setlogInComplete} 이런거 안넘겨줘도됨.
             <UserProfile />
           ) : (
             <LoginFrom />

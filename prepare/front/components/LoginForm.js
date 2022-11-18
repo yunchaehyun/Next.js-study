@@ -19,7 +19,7 @@ const LoginForm = () => {
 
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
-  const { isLoggingIn } = useSelector((state) => state.user);
+  const { logInLoading } = useSelector((state) => state.user);
 
   const style = useMemo(() => ({ marginTop: 10 }), []);
   // 컴포넌트에 props로 넘겨주는 함수는 꼭 useCallback => 최적화를 위해서
@@ -49,7 +49,7 @@ const LoginForm = () => {
           ></Input>
         </div>
         <ButtonWrapper style={style}>
-          <Button type="primary" htmlType="submit" loading={isLoggingIn}>
+          <Button type="primary" htmlType="submit" loading={logInLoading}>
             로그인
           </Button>
           <Link href="/signup">

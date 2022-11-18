@@ -34,7 +34,7 @@ function* addPost(action) {
     yield put({
       type: "ADD_POST_FAILURE",
       // 실패 결과는 err.response.data에 담겨 있음
-      data: err.response.data,
+      error: err.response.data,
     });
   }
 }
