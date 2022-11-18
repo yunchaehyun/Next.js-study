@@ -42,12 +42,6 @@ function logOutAPI() {
 function* logOut() {
   try {
     yield delay(1000);
-
-    yield put({
-      type: "LOG_OUT_REQUEST",
-    });
-    // axios를 통해 받은 결과
-    // const result = yield call(logOutAPI);
     yield put({
       type: "LOG_OUT_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
