@@ -51,7 +51,6 @@ function* logOut() {
     yield put({
       type: "LOG_OUT_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
-      data: result.data,
     });
   } catch (err) {
     yield put({

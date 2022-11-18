@@ -28,7 +28,7 @@ function* addPost(action) {
     yield put({
       type: "ADD_POST_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
-      data: result.data,
+      data: action.data,
     });
   } catch (err) {
     yield put({

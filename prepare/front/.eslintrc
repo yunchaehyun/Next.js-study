@@ -21,6 +21,6 @@
         "react-hooks"
     ],
     "rules": {
-
+        "no-unused-vars": "off",
     }
 }
