@@ -1,16 +1,16 @@
 import {
-    all,
-    fork,
-    call,
-    put,
-    takeEvery,
-    take,
-    takeLatest,
-    throttle,
-    delay,
-  } from "redux-saga/effects";
-  import axios from "axios";
-  
+  all,
+  fork,
+  call,
+  put,
+  takeEvery,
+  take,
+  takeLatest,
+  throttle,
+  delay,
+} from "redux-saga/effects";
+import axios from "axios";
+
 function addPostAPI(data) {
   //data: 게시할 post에 대한 data
   return axios.post("/api/post", data);

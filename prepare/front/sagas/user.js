@@ -1,16 +1,16 @@
 import {
-    all,
-    fork,
-    call,
-    put,
-    takeEvery,
-    take,
-    takeLatest,
-    throttle,
-    delay,
-  } from "redux-saga/effects";
-  import axios from "axios";
-  
+  all,
+  fork,
+  call,
+  put,
+  takeEvery,
+  take,
+  takeLatest,
+  throttle,
+  delay,
+} from "redux-saga/effects";
+import axios from "axios";
+
 function loginAPI(data) {
   return axios.post("/api/login", data);
 }
@@ -24,7 +24,7 @@ function* logIn(action) {
     yield put({
       type: "LOG_IN_SUCCESS",
       // 성공 결과는 result.data에 담겨 있음
-      data: result.data,
+      data: action.data,
     });
   } catch (err) {
     yield put({
