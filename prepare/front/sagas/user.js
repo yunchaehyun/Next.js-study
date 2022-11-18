@@ -10,6 +10,17 @@ import {
   delay,
 } from "redux-saga/effects";
 import axios from "axios";
+import {
+  LOG_IN_SUCCESS,
+  LOG_IN_REQUEST,
+  LOG_IN_FAILURE,
+  LOG_OUT_FAILURE,
+  LOG_OUT_REQUEST,
+  LOG_OUT_SUCCESS,
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE,
+} from "../reducers/user.js";
 
 function loginAPI(data) {
   return axios.post("/api/login", data);
@@ -22,13 +33,13 @@ function* logIn(action) {
     // loginAPI(action.data) 라고 생각하면 됨
     // const result = yield call(loginAPI, action.data);
     yield put({
-      type: "LOG_IN_SUCCESS",
+      type: LOG_IN_SUCCESS,
       // 성공 결과는 result.data에 담겨 있음
       data: action.data,
     });
   } catch (err) {
     yield put({
-      type: "LOG_IN_FAILURE",
+      type: LOG_IN_FAILURE,
       // 실패 결과는 err.response.data에 담겨 있음
       error: err.response.data,
     });
@@ -43,13 +54,32 @@ function* logOut() {
   try {
     yield delay(1000);
     yield put({
-      type: "LOG_OUT_SUCCESS",
+      type: LOG_OUT_SUCCESS,
       // 성공 결과는 result.data에 담겨 있음
     });
   } catch (err) {
     yield put({
-      type: "LOG_OUT_FAILURE",
+      type: LOG_OUT_FAILURE,
       // 실패 결과는 err.response.data에 담겨 있음
+      error: err.response.data,
+    });
+  }
+}
+
+function signUpAPI() {
+  return axios.post("/api/signUp");
+}
+
+function* signUp(action) {
+  try {
+    // const result = yield call(signUpAPI);
+    yield delay(1000);
+    yield put({
+      type: SIGN_UP_SUCCESS,
+    });
+  } catch (err) {
+    yield put({
+      type: SIGN_UP_FAILURE,
       error: err.response.data,
     });
   }
@@ -58,13 +88,17 @@ function* logOut() {
 function* watchLogIn() {
   // 로그인 액션이 들어오면, login 함수를 실행
   // 들어올 때 까지 기다림. 이벤트리스너 같은 역할을 수행
-  yield takeLatest("LOG_IN_REQUEST", logIn);
+  yield takeLatest(LOG_IN_REQUEST, logIn);
 }
 
 function* watchLogOut() {
-  yield takeLatest("LOG_OUT_REQUEST", logOut);
+  yield takeLatest(LOG_OUT_REQUEST, logOut);
+}
+
+function* watchSignUp() {
+  yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogIn), fork(watchLogOut)]);
+  yield all([fork(watchLogIn), fork(watchLogOut), fork(watchSignUp)]);
 }
