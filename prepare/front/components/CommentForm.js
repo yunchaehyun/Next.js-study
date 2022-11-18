@@ -1,26 +1,40 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useDebugValue } from "react";
 import { Form, Input, Button } from "antd";
 import PropTypes from "prop-types";
 import useInput from "../hooks/useInput";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_COMMENT_REQUEST } from "../reducers/post";
 
 // 댓글 창
 const CommentForm = ({ post }) => {
-// 현재 접속한 유저
+  // 현재 접속한 유저
+  const dispatch = useDispatch();
+
   const id = useSelector((state) => state.user.me?.id);
-  const [commentText, onChangeCommentText] = useInput("");
+  const { addCommentDone } = useSelector((state) => state.post);
+
+  const [commentText, onChangeCommentText, setCommentText] = useInput("");
   const onSubmitComment = useCallback(() => {
     console.log(post.id, commentText);
-  }, [commentText]);
+    dispatch({
+      type: ADD_COMMENT_REQUEST,
+      data: { content: commentText, postId: post.id, userId: id },
+    });
+  }, [commentText, id]);
+
   return (
     <>
       <Form onFinish={onSubmitComment}>
-        <Form.Item style={{position: 'relative', margin: 0}}>
+        <Form.Item style={{ position: "relative", margin: 0 }}>
           <Input.TextArea
             value={commentText}
             onChange={onChangeCommentText}
           ></Input.TextArea>
-          <Button style = {{position: 'absolute', right: 0, bottom: -40}} type="primary" htmlType="submit">
+          <Button
+            style={{ position: "absolute", right: 0, bottom: -40 }}
+            type="primary"
+            htmlType="submit"
+          >
             삐약
           </Button>
         </Form.Item>

@@ -17,7 +17,7 @@ const FormWrapper = styled(Form)`
 const LoginForm = () => {
   const dispatch = useDispatch();
 
-  const [id, onChangeId] = useInput("");
+  const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
   const { logInLoading } = useSelector((state) => state.user);
 
@@ -26,17 +26,21 @@ const LoginForm = () => {
   // 리렌더링돼도 같은 객체 유지 => 리렌더링 최적화
 
   const onSubmitForm = useCallback(() => {
-    // console.log(id, password);
-    dispatch(loginRequestAction({ id, password }));
-  }, [id, password]);
+    dispatch(loginRequestAction({ email, password }));
+  }, [email, password]);
 
   return (
     <>
       <FormWrapper onFinish={onSubmitForm}>
         <div>
-          <label htmlFor="user-id">아이디</label>
+          <label htmlFor="user-email">이메일</label>
           <br />
-          <Input name="user-id" value={id} onChange={onChangeId}></Input>
+          <Input
+            name="user-email"
+            value={email}
+            type="email"
+            onChange={onChangeEmail}
+          ></Input>
         </div>
         <div>
           <label htmlFor="user-password">비밀번호</label>
