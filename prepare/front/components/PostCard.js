@@ -74,9 +74,9 @@ function PostCard({ post }) {
             댓글은 게시글에 상속되기 때문 */}
           <CommentForm post={post} />
           <List
-            header={`${post.Comment.length}개의 댓글`}
+            header={`${post.Comments.length}개의 댓글`}
             itemLayout="horizontal"
-            dataSource={post.Comment}
+            dataSource={post.Comments}
             renderItem={(item) => (
               // item은 post.Comments의 객체 하나하나를 의미함
               <li>
@@ -101,7 +101,7 @@ PostCard.propTypes = {
     content: PropTypes.string,
     createdAt: PropTypes.object,
     // 객체들의 배열 arrayof(object)
-    Comment: PropTypes.arrayOf(PropTypes.object),
+    Comments: PropTypes.arrayOf(PropTypes.object),
     Images: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };
