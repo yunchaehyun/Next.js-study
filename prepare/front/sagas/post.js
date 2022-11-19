@@ -49,22 +49,38 @@ function addCommentAPI(data) {
   return axios.post(`/api/post/${data.postId}/comment`, data);
 }
 
+// function* addComment(action) {
+//   try {
+//     yield delay(1000);
+
+//     // axios를 통해 받은 결과
+//     // const result = yield call(addCommentAPI, action.data);
+//     yield put({
+//       type: ADD_COMMENT_SUCCESS,
+//       data: action.data,
+//       // 성공 결과는 result.data에 담겨 있음
+//     });
+//   } catch (err) {
+//     yield put({
+//       type: ADD_COMMENT_FAILURE,
+//       // 실패 결과는 err.response.data에 담겨 있음
+//       error: err.response.data,
+//     });
+//   }
+// }
+
 function* addComment(action) {
   try {
-    yield delay(1000);
-
-    // axios를 통해 받은 결과
     // const result = yield call(addCommentAPI, action.data);
+    yield delay(1000);
     yield put({
       type: ADD_COMMENT_SUCCESS,
       data: action.data,
-      // 성공 결과는 result.data에 담겨 있음
     });
   } catch (err) {
     yield put({
       type: ADD_COMMENT_FAILURE,
-      // 실패 결과는 err.response.data에 담겨 있음
-      error: err.response.data,
+      data: err.response.data,
     });
   }
 }
@@ -75,7 +91,6 @@ function* watchAddPost() {
 function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
-
 export default function* postSaga() {
   yield all([fork(watchAddPost), fork(watchAddComment)]);
 }
