@@ -1,12 +1,12 @@
-import PropTypes from "prop-types";
-import Link from "next/link";
-import React from "react";
-import { Menu, Input, Row, Col } from "antd";
-import UserProfile from "./UserProfile";
-import LoginFrom from "./LoginForm";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { createGlobalStyle } from "styled-components";
+import PropTypes from 'prop-types';
+import Link from 'next/link';
+import React from 'react';
+import { Menu, Input, Row, Col } from 'antd';
+import styled, { createGlobalStyle } from 'styled-components';
+import { useSelector } from 'react-redux';
+
+import LoginFrom from './LoginForm';
+import UserProfile from './UserProfile';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: "middle";
@@ -29,8 +29,8 @@ const Global = createGlobalStyle`
 `;
 
 // app.js와 다르게 AppLayout.js는 일부만 공통인 애들
-const AppLayout = ({ children }) => {
-  //redux에서 받아오는거, logInComplete이 바뀌면 컴포넌트가 알아서 리렌더링됨
+function AppLayout({ children }) {
+  // redux에서 받아오는거, logInComplete이 바뀌면 컴포넌트가 알아서 리렌더링됨
   const { me } = useSelector((state) => state.user);
   // 구조분해할당
   // const logInComplete = useSelector((state)=> state.user);
@@ -43,9 +43,9 @@ const AppLayout = ({ children }) => {
         </Menu.Item>
         <Menu.Item>
           <Link href="/profile">프로필</Link>
-        </Menu.Item>{" "}
+        </Menu.Item>{' '}
         <Menu.Item>
-          <SearchInput enterButton></SearchInput>
+          <SearchInput enterButton />
         </Menu.Item>
         <Menu.Item>
           <Link href="/signup">회원가입</Link>
@@ -69,7 +69,7 @@ const AppLayout = ({ children }) => {
       </Row>
     </div>
   );
-};
+}
 
 AppLayout.propTypes = {
   // node.js가 아니라 react의 node임

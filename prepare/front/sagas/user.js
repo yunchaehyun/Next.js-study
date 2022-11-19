@@ -8,8 +8,8 @@ import {
   takeLatest,
   throttle,
   delay,
-} from "redux-saga/effects";
-import axios from "axios";
+} from 'redux-saga/effects';
+import axios from 'axios';
 import {
   LOG_IN_SUCCESS,
   LOG_IN_REQUEST,
@@ -20,10 +20,11 @@ import {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
-} from "../reducers/user.js";
+// eslint-disable-next-line import/extensions
+} from '../reducers/user.js';
 
 function loginAPI(data) {
-  return axios.post("/api/login", data);
+  return axios.post('/api/login', data);
 }
 
 function* logIn(action) {
@@ -47,7 +48,7 @@ function* logIn(action) {
 }
 
 function logOutAPI() {
-  return axios.post("/api/logout");
+  return axios.post('/api/logout');
 }
 
 function* logOut() {
@@ -67,7 +68,7 @@ function* logOut() {
 }
 
 function signUpAPI() {
-  return axios.post("/api/signUp");
+  return axios.post('/api/signUp');
 }
 
 function* signUp(action) {

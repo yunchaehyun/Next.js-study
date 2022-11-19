@@ -8,8 +8,8 @@ import {
   takeLatest,
   throttle,
   delay,
-} from "redux-saga/effects";
-import axios from "axios";
+} from 'redux-saga/effects';
+import axios from 'axios';
 import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
@@ -17,20 +17,17 @@ import {
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE,
-} from "../reducers/post";
+} from '../reducers/post';
 
 function addPostAPI(data) {
-  //data: 게시할 post에 대한 data
-  return axios.post("/api/post", data);
+  // data: 게시할 post에 대한 data
+  return axios.post('/api/post', data);
 }
 
 function* addPost(action) {
   try {
     yield delay(1000);
 
-    yield put({
-      type: ADD_POST_REQUEST,
-    });
     // axios를 통해 받은 결과
     // const result = yield call(addPostAPI, action.data);
     yield put({
@@ -48,7 +45,7 @@ function* addPost(action) {
 }
 
 function addCommentAPI(data) {
-  //data: 게시할 post에 대한 data
+  // data: 게시할 post에 대한 data
   return axios.post(`/api/post/${data.postId}/comment`, data);
 }
 
@@ -56,15 +53,12 @@ function* addComment(action) {
   try {
     yield delay(1000);
 
-    yield put({
-      type: ADD_COMMENT_REQUEST,
-    });
     // axios를 통해 받은 결과
     // const result = yield call(addCommentAPI, action.data);
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      // 성공 결과는 result.data에 담겨 있음
       data: action.data,
+      // 성공 결과는 result.data에 담겨 있음
     });
   } catch (err) {
     yield put({

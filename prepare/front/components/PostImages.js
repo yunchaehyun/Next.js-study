@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from "react";
-import PropTypes from "prop-types";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
+import { PlusOutlined } from '@ant-design/icons';
 // 폴더는 자동으로 Index를 불러온다.
-import ImagesZoom from "./imagesZoom";
+import ImagesZoom from './imagesZoom';
 
-const PostImages = ({ images }) => {
+function PostImages({ images }) {
   const [showImageZoom, setShowImagesZoom] = useState(false);
   const onZoom = useCallback(() => {
     setShowImagesZoom(true);
@@ -30,14 +30,14 @@ const PostImages = ({ images }) => {
       <>
         <img
           role="presentation"
-          style={{ display: "inline-block", width: "50%" }}
+          style={{ display: 'inline-block', width: '50%' }}
           src={images[0].src}
           alt={images[0].src}
           onClick={onZoom}
         />
         <img
           role="presentation"
-          style={{ display: "inline-block", width: "50%" }}
+          style={{ display: 'inline-block', width: '50%' }}
           src={images[0].src}
           alt={images[0].src}
           onClick={onZoom}
@@ -51,7 +51,7 @@ const PostImages = ({ images }) => {
       <div>
         <img
           role="presentation"
-          style={{ width: "50%" }}
+          style={{ width: '50%' }}
           src={images[0].src}
           alt={images[0].src}
           onClick={onZoom}
@@ -59,10 +59,10 @@ const PostImages = ({ images }) => {
         <div
           role="presentation"
           style={{
-            display: "inline-block",
-            width: "50%",
-            textAlign: "center",
-            verticalAlign: "middle",
+            display: 'inline-block',
+            width: '50%',
+            textAlign: 'center',
+            verticalAlign: 'middle',
           }}
           onClick={onZoom}
         >
@@ -75,9 +75,10 @@ const PostImages = ({ images }) => {
       {showImageZoom && <ImagesZoom images={images} onClose={onClose} />}
     </>
   );
-};
+}
 
 PostImages.propTypes = {
+  // eslint-disable-next-line react/require-default-props
   images: PropTypes.arrayOf(PropTypes.object),
 };
 

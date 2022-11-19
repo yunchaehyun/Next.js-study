@@ -1,17 +1,24 @@
-import { Form, Input, Button } from "antd";
-import { useCallback } from "react";
-import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addPost, addPostRequestAction, addPostDone } from "../reducers/post";
-import { useInput } from "../hooks/useInput";
+import { Form, Input, Button } from 'antd';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 
-const PostForm = () => {
-  const { imagePaths } = useSelector((state) => state.post);
+import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line import/named
+import { addPostRequestAction } from '../reducers/post';
+// eslint-disable-next-line import/named
+import { useInput } from '../hooks/useInput';
+
+function PostForm() {
+  const { imagePaths, addPostLoading, addPostDone } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  const [text, setText] = useState('');
+
+  const onChangeText = useCallback((e) => {
+    setText(e.target.value);
+  }, []);
 
   useEffect(() => {
     if (addPostDone) {
-      setText("");
+      setText('');
     }
   }, [addPostDone]);
 
@@ -19,8 +26,6 @@ const PostForm = () => {
     dispatch(addPostRequestAction(text));
   }, [text]);
 
-  const [text, onChangeText, setText] = useInput("");
-  
   const imageInput = useRef();
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
@@ -31,7 +36,7 @@ const PostForm = () => {
       {/* 일단 기능 구현 하고 refacoring할 때, 성능 측정 해보면서 useMemo 사용해주기. */}
 
       <Form
-        style={{ margin: "10px 0 20px" }}
+        style={{ margin: '10px 0 20px' }}
         encType="multipart/form-data"
         onFinish={onSubmit}
       >
@@ -45,14 +50,15 @@ const PostForm = () => {
         <div>
           <input type="file" multiple hidden ref={imageInput} />
           <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-          <Button type="primary" style={{ float: "right" }} htmlType="submit">
+          <Button type="primary" style={{ float: 'right' }} htmlType="submit">
             게시글 작성
           </Button>
         </div>
         <div>
+          {/* eslint-disable-next-line array-callback-return */}
           {imagePaths.map((v) => {
-            <div key={v} style={{ display: "block" }}>
-              <img src={v} style={{ width: "200px" }} alt={v} />
+            <div key={v} style={{ display: 'block' }}>
+              <img src={v} style={{ width: '200px' }} alt={v} />
               <div>
                 <Button>제거</Button>
               </div>
@@ -62,6 +68,6 @@ const PostForm = () => {
       </Form>
     </>
   );
-};
+}
 
 export default PostForm;

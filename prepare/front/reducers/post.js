@@ -1,39 +1,39 @@
 export const initialState = {
   mainPosts: [
     {
-      //post1의 id
+      // post1의 id
       id: 1,
-      //post1의 user
+      // post1의 user
       User: {
         id: 1,
-        nickname: "채현이",
+        nickname: '채현이',
       },
-      //post1의 content
-      content: "첫 번째 게시글 #해시태그 #익스프레스",
+      // post1의 content
+      content: '첫 번째 게시글 #해시태그 #익스프레스',
       Images: [
         {
-          src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726",
+          src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
         },
         {
-          src: "https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg",
+          src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
         },
         {
-          src: "https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg",
+          src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
         },
       ],
       // post1의 comment
       Comment: [
         {
           User: {
-            nickname: "태희",
+            nickname: '태희',
           },
-          content: "사보 그래도 선방했다.",
+          content: '사보 그래도 선방했다.',
         },
         {
           User: {
-            nickname: "진아",
+            nickname: '진아',
           },
-          content: "감기 조심해~",
+          content: '감기 조심해~',
         },
       ],
     },
@@ -46,16 +46,19 @@ export const initialState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
 
 // 액션 이름을 상수로 빼줌.
-export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
-export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
-export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 
-export const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
-export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
-export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
 export const addPostRequestAction = (data) => ({
   type: ADD_POST_REQUEST,
@@ -63,20 +66,20 @@ export const addPostRequestAction = (data) => ({
 });
 
 export const addCommentRequestAction = (data) => ({
-  type: ADD_POST_REQUEST,
+  type: ADD_COMMENT_REQUEST,
   data,
 });
 
-const dummyPost = {
+const dummyPost = (data) => ({
   id: 2,
-  content: "더미데이터입니다.",
+  content: data,
   User: {
     id: 1,
-    nickname: "민정",
+    nickname: '민정',
   },
   Images: [],
   Comments: [],
-};
+});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -90,7 +93,7 @@ const reducer = (state = initialState, action) => {
     case ADD_POST_SUCCESS:
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [dummyPost(action.data), ...state.mainPosts],
         addPostLoading: false,
         addPostDone: true,
       };
