@@ -1,8 +1,10 @@
+import shortId from 'shortid';
+
 export const initialState = {
   mainPosts: [
     {
       // post1의 id
-      id: 1,
+      id: shortId.generate(),
       // post1의 user
       User: {
         id: 1,
@@ -81,6 +83,13 @@ const dummyPost = (data) => ({
   Comments: [],
 });
 
+const dummyComment = (data) => ({
+  id: data.userId,
+  comment: data.content,
+  postId: data.postId,
+
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST_REQUEST:
@@ -110,12 +119,18 @@ const reducer = (state = initialState, action) => {
         addCommentDone: false,
         addCommentError: null,
       };
-    case ADD_COMMENT_SUCCESS:
+    case ADD_COMMENT_SUCCESS: {
+      const postIndex = state.mainPosts.findIndex((v) => v.id === action.state.postId);
+      const post = state.mainPosts[postIndex];
+      post.Comments = [dummyComment(action.data.content), ...post.Comments];
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = post;
       return {
         ...state,
+        mainPosts,
         addCommentLoading: false,
         addCommentDone: true,
-      };
+      }; }
     case ADD_COMMENT_FAILURE:
       return {
         ...state,
