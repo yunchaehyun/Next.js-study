@@ -31,7 +31,7 @@ function CommentForm({ post }) {
           type="primary"
           htmlType="submit"
         >
-          삐약
+          작성
         </Button>
       </Form.Item>
     </Form>

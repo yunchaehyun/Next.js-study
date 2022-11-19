@@ -24,7 +24,7 @@ export const initialState = {
         },
       ],
       // post1의 comment
-      Comment: [
+      Comments: [
         {
           User: {
             nickname: '태희',
@@ -84,10 +84,12 @@ const dummyPost = (data) => ({
 });
 
 const dummyComment = (data) => ({
-  id: data.userId,
-  comment: data.content,
-  postId: data.postId,
-
+  id: shortId.generate(),
+  content: data,
+  User: {
+    id: 1,
+    nickname: '채채',
+  },
 });
 
 const reducer = (state = initialState, action) => {
@@ -120,17 +122,25 @@ const reducer = (state = initialState, action) => {
         addCommentError: null,
       };
     case ADD_COMMENT_SUCCESS: {
-      const postIndex = state.mainPosts.findIndex((v) => v.id === action.state.postId);
+      // 넘겨준 postid를 통해 postIndex를 찾음.
+      const postIndex = state.mainPosts.findIndex(
+        (v) => v.id === action.state.postId,
+      );
+      // postIndex로 새로운 post 객체 생성함. post 내용은 전부 들어있음.
       const post = state.mainPosts[postIndex];
+      // 새로운 post객체의 comment를 수정해줌. (불변성 지키기!!!!) 원래 comments를 전개 구문으로 펼쳐줌
       post.Comments = [dummyComment(action.data.content), ...post.Comments];
+      // mainPosts 객체를 하나 복사해줌 (불변성)
       const mainPosts = [...state.mainPosts];
+      // mainPosts의 postIndex 위치에 새로 만든 객체를 넣어줌
       mainPosts[postIndex] = post;
       return {
         ...state,
         mainPosts,
         addCommentLoading: false,
         addCommentDone: true,
-      }; }
+      };
+    }
     case ADD_COMMENT_FAILURE:
       return {
         ...state,
