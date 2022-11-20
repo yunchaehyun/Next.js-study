@@ -1,4 +1,5 @@
 import shortId from 'shortid';
+import faker from 'faker';
 import produce from 'immer';
 
 export const initialState = {
@@ -56,13 +57,34 @@ export const initialState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
-  addCommentLoading: false,
-  addCommentDone: false,
-  addCommentError: null,
   removePostLoading: false,
   removePostDone: false,
   removePostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
+
+initialState.mainPosts.concat(Array(20).fill().map(() => ({
+  id: shortId.generate(),
+  User: {
+    id: shortId.generate(),
+    nickname: faker.name.findName(),
+  },
+  content: faker.lorem.paragraph(),
+  Images: [{
+    src: faker.image.image(),
+  }],
+  Comments: [
+    {
+      User: {
+        id: shortId.generate(),
+        nickname: faker.name.findName(),
+      },
+      content: faker.lorem.sentence(),
+    },
+  ],
+})));
 
 // 액션 이름을 상수로 빼줌.
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -94,7 +116,7 @@ const dummyPost = (data) => ({
   content: data.content,
   User: {
     id: 1,
-    nickname: '민정',
+    nickname: 'chae',
   },
   Images: [],
   Comments: [],

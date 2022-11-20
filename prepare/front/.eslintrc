@@ -30,6 +30,7 @@
     "object-curly-newline": "off",
     "linebreak-style": "off",
     "no-param-reassign": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "default-param-last": "off",
   }
 }
