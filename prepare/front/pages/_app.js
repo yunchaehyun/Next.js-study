@@ -10,7 +10,7 @@ function App({ Component }) {
     <>
       <Head>
         <meta charSet="utf-8" />
-        <title>title test</title>
+        <title>Node bird</title>
       </Head>
       <Component />
     </>

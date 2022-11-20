@@ -14,25 +14,32 @@ export const initialState = {
       content: '첫 번째 게시글 #해시태그 #익스프레스',
       Images: [
         {
+          id: shortId.generate(),
           src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
         },
         {
+          id: shortId.generate(),
           src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
         },
         {
+          id: shortId.generate(),
           src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
         },
       ],
       // post1의 comment
       Comments: [
         {
+          id: shortId.generate(),
           User: {
+            id: shortId.generate(),
             nickname: '태희',
           },
           content: '사보 그래도 선방했다.',
         },
         {
+          id: shortId.generate(),
           User: {
+            id: shortId.generate(),
             nickname: '진아',
           },
           content: '감기 조심해~',
@@ -73,8 +80,10 @@ export const addCommentRequestAction = (data) => ({
 });
 
 const dummyPost = (data) => ({
-  id: 2,
-  content: data,
+  // 게시글의 id
+  id: data.id,
+  // 게시글의 content
+  content: data.content,
   User: {
     id: 1,
     nickname: '민정',
