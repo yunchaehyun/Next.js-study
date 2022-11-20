@@ -7,11 +7,12 @@ import {
   EllipsisOutlined,
 } from '@ant-design/icons';
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
+import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 // 게시글 구현 코드
 function PostCard({ post }) {
@@ -25,8 +26,16 @@ function PostCard({ post }) {
     setCommentFormOpened((prev) => !prev);
   }, []);
   const id = useSelector((state) => state.user.me?.id);
-  // console.log(id);
-  // console.log(post.User.id);
+  const { removePostLoading } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+
+  const onRemovePost = useCallback(() => {
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      data: post.id,
+    });
+  }, []);
+
   return (
     <div style={{ marginBottom: 10 }}>
       <Card
@@ -50,7 +59,12 @@ function PostCard({ post }) {
                 {id && post.User.id === id ? (
                   <>
                     <Button>수정</Button>
-                    <Button type="danger">삭제</Button>
+                    <Button
+                      type="danger"
+                      loading={removePostLoading}
+                      onClick={onRemovePost}
+                    >삭제
+                    </Button>
                   </>
                 ) : (
                   <Button>신고</Button>
