@@ -6,7 +6,7 @@ import {
   MessageOutlined,
   EllipsisOutlined,
 } from '@ant-design/icons';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import PostImages from './PostImages';
@@ -16,6 +16,10 @@ import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 // 게시글 구현 코드
 function PostCard({ post }) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
   const onToggleLike = useCallback(() => {
@@ -36,6 +40,7 @@ function PostCard({ post }) {
     });
   }, []);
 
+  console.log(post.User);
   return (
     <div style={{ marginBottom: 10 }}>
       <Card
@@ -76,11 +81,13 @@ function PostCard({ post }) {
           </Popover>,
         ]}
       >
-        <Card.Meta
-          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-          title={post.User.nickname}
-          description={<PostCardContent postData={post.content} />}
-        />
+        { isMounted ? (
+          <Card.Meta
+            avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+            title={post.User.nickname}
+            description={<PostCardContent postData={post.content} />}
+          />
+        ) : null}
       </Card>
       {commentFormOpened && (
         <div>

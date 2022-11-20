@@ -3,54 +3,7 @@ import faker from 'faker';
 import produce from 'immer';
 
 export const initialState = {
-  mainPosts: [
-    {
-      // post1의 id
-      id: shortId.generate(),
-      // post1의 user
-      User: {
-        id: 1,
-        nickname: '채현이',
-      },
-      // post1의 content
-      content: '첫 번째 게시글 #해시태그 #익스프레스',
-      Images: [
-        {
-          id: shortId.generate(),
-          src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-        },
-        {
-          id: shortId.generate(),
-          src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-        },
-        {
-          id: shortId.generate(),
-          src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
-        },
-      ],
-      // post1의 comment
-      Comments: [
-        {
-          id: shortId.generate(),
-          User: {
-            id: shortId.generate(),
-            nickname: '태희',
-          },
-          content: '사보 그래도 선방했다.',
-        },
-        {
-          id: shortId.generate(),
-          User: {
-            id: shortId.generate(),
-            nickname: '진아',
-          },
-          content: '감기 조심해~',
-        },
-      ],
-    },
-  ],
-  // mainPost array 끝
-  // imagePath: 이미지 업로드할 때 이미지 경로들 저장하는 변수
+  mainPosts: [],
   imagePaths: [],
   // postAdded: 게시글 추가 완료 여부
   postAdded: false,
@@ -65,6 +18,34 @@ export const initialState = {
   addCommentError: null,
 };
 
+<<<<<<< HEAD
+export const generateDummyPost = (number) => Array(number)
+  .fill()
+  .map(() => ({
+    content: faker.lorem.paragraph().toString(),
+    id: shortId.generate(),
+    User: {
+      id: shortId.generate(),
+      nickname: faker.name.findName().toString(),
+    },
+    Images: [
+      {
+        src: faker.image.image(),
+      },
+    ],
+    Comments: [
+      {
+        User: {
+          id: shortId.generate(),
+          nickname: faker.name.findName().toString(),
+        },
+        content: faker.lorem.sentence().toString(),
+      },
+    ],
+  }));
+
+initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
+=======
 initialState.mainPosts.concat(Array(20).fill().map(() => ({
   id: shortId.generate(),
   User: {
@@ -85,6 +66,7 @@ initialState.mainPosts.concat(Array(20).fill().map(() => ({
     },
   ],
 })));
+>>>>>>> parent of 914c7584 (fix: fix ssr error)
 
 // 액션 이름을 상수로 빼줌.
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -134,6 +116,20 @@ const dummyComment = (data) => ({
 // reducer: 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(단, 불변성은 지키면서)
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    case LOAD_POSTS_REQUEST:
+      draft.loadPostsLoading = true;
+      draft.loadPostsDone = false;
+      draft.loadPostsError = null;
+      break;
+    case LOAD_POSTS_SUCCESS:
+      draft.loadPostsLoading = false;
+      draft.loadPostsDone = true;
+      draft.mainPosts = action.data.concat(draft.mainPosts);
+      break;
+    case LOAD_POSTS_FAILURE:
+      draft.loadPostsLoading = false;
+      draft.loadPostsError = action.error;
+      break;
     case ADD_POST_REQUEST:
       draft.addPostLoading = true;
       draft.addPostDone = false;
