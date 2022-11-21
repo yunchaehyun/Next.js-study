@@ -43,7 +43,7 @@ export const generateDummyPost = (number) => Array(number)
     ],
   }));
 
-initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
+// initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
 
 // 액션 이름을 상수로 빼줌.
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';

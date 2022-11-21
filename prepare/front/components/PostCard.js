@@ -40,7 +40,7 @@ function PostCard({ post }) {
     });
   }, []);
 
-  console.log(post.User);
+  // console.log(post.User);
   return (
     <div style={{ marginBottom: 10 }}>
       <Card
