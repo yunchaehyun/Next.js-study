@@ -56,11 +56,7 @@ const dummyUser = (data) => ({
   nickname: '채현',
   id: 1,
   Posts: [{ id: 1 }],
-  Followings: [
-    { nickname: '태희' },
-    { nickname: '진아' },
-    { nickname: '은석' },
-  ],
+  Followings: [],
   Followers: [{ nickname: '태희' }, { nickname: '진아' }, { nickname: '은석' }],
 });
 
@@ -81,28 +77,32 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case FOLLOW_REQUEST:
       draft.followLoading = true;
       draft.followError = null;
-      draft.follownDone = false;
+      draft.followDone = false;
       break;
     case FOLLOW_SUCCESS:
       draft.followLoading = false;
       draft.followDone = true;
+      draft.me.Followings.push({ id: action.data });
       break;
     case FOLLOW_FAILURE:
       draft.followLoading = false;
-      draft.follownError = action.error;
+      draft.followError = action.error;
       break;
     case UNFOLLOW_REQUEST:
       draft.unfollowLoading = true;
       draft.unfollowError = null;
-      draft.unfollownDone = false;
+      draft.unfollowDone = false;
       break;
     case UNFOLLOW_SUCCESS:
       draft.unfollowLoading = false;
       draft.unfollowDone = true;
+      draft.me.Followings = draft.me.Followings.filter(
+        (v) => v.id !== action.data,
+      );
       break;
     case UNFOLLOW_FAILURE:
       draft.unfollowLoading = false;
-      draft.unfollownError = action.error;
+      draft.unfollowError = action.error;
       break;
     case LOG_IN_REQUEST:
       draft.logInLoading = true;
