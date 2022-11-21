@@ -5,8 +5,8 @@ import produce from 'immer';
 export const initialState = {
   mainPosts: [],
   imagePaths: [],
-  // postAdded: 게시글 추가 완료 여부
-  postAdded: false,
+  // 더 이상 불러올게 없는 경우 false
+  hasMorePost: true,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -18,7 +18,6 @@ export const initialState = {
   addCommentError: null,
 };
 
-<<<<<<< HEAD
 export const generateDummyPost = (number) => Array(number)
   .fill()
   .map(() => ({
@@ -45,28 +44,6 @@ export const generateDummyPost = (number) => Array(number)
   }));
 
 initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
-=======
-initialState.mainPosts.concat(Array(20).fill().map(() => ({
-  id: shortId.generate(),
-  User: {
-    id: shortId.generate(),
-    nickname: faker.name.findName(),
-  },
-  content: faker.lorem.paragraph(),
-  Images: [{
-    src: faker.image.image(),
-  }],
-  Comments: [
-    {
-      User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName(),
-      },
-      content: faker.lorem.sentence(),
-    },
-  ],
-})));
->>>>>>> parent of 914c7584 (fix: fix ssr error)
 
 // 액션 이름을 상수로 빼줌.
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
@@ -80,6 +57,10 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
+
+export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
+export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
+export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
 
 export const addPostRequestAction = (data) => ({
   type: ADD_POST_REQUEST,
@@ -125,6 +106,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.loadPostsLoading = false;
       draft.loadPostsDone = true;
       draft.mainPosts = action.data.concat(draft.mainPosts);
+      draft.hasMorePost = draft.mainPosts.length < 50;
       break;
     case LOAD_POSTS_FAILURE:
       draft.loadPostsLoading = false;

@@ -21,9 +21,35 @@ import {
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
   REMOVE_POST_FAILURE,
+  LOAD_POSTS_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
 } from '../reducers/post';
 
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
+
+function loadPostsAPI(data) {
+  // data: 게시할 post에 대한 data
+  return axios.get('/api/post', data);
+}
+
+function* loadPosts(action) {
+  try {
+    // const result = yield call(loadPostsAPI, action.data);
+    yield delay(1000);
+    // 게시글의 id
+    const id = shortId.generate();
+    yield put({
+      type: LOAD_POSTS_SUCCESS,
+      data: action.data,
+    });
+  } catch (err) {
+    yield put({
+      type: LOAD_POSTS_FAILURE,
+      data: err.response.data,
+    });
+  }
+}
 
 function addPostAPI(data) {
   // data: 게시할 post에 대한 data
@@ -120,6 +146,9 @@ function* watchRemovePost() {
 }
 function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
+}
+function* watchLoadPosts() {
+  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
 
 export default function* postSaga() {
