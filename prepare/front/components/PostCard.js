@@ -12,8 +12,8 @@ import PropTypes from 'prop-types';
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
-import { REMOVE_POST_REQUEST } from '../reducers/post';
 import FollowButton from './FollowButton';
+import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 // 게시글 구현 코드
 function PostCard({ post }) {

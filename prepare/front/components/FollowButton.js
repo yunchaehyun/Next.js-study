@@ -16,17 +16,23 @@ function FollowButton({ post }) {
     if (isFollowing) {
       dispatch({
         type: UNFOLLOW_REQUEST,
+        data: post.User.id,
       });
     }
     if (!isFollowing) {
-      dispatch({ type: FOLLOW_REQUEST });
+      dispatch({ type: FOLLOW_REQUEST, data: post.User.id });
     }
   }, [isFollowing]);
 
   return (
-    <Button loading={followLoading || unfollowLoading} onClick={onClickButton}>
-      {isFollowing ? '언팔로우' : '팔로우'}
-    </Button>
+    <div>
+      <Button
+        loading={followLoading || unfollowLoading}
+        onClick={onClickButton}
+      >
+        {isFollowing ? '언팔로우' : '팔로우'}
+      </Button>
+    </div>
   );
 }
 
