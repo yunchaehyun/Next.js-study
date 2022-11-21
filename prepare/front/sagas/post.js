@@ -136,7 +136,9 @@ function* addComment(action) {
     });
   }
 }
-
+function* watchLoadPosts() {
+  yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
+}
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -145,9 +147,6 @@ function* watchRemovePost() {
 }
 function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
-}
-function* watchLoadPosts() {
-  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
 
 export default function* postSaga() {

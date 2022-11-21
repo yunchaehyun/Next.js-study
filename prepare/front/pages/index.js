@@ -8,7 +8,9 @@ import { LOAD_POSTS_REQUEST } from '../reducers/post';
 function Home() {
   // useSelector를 사용해 redux에 있는 상태 가져오기
   const { me } = useSelector((state) => state.user);
-  const { mainPosts } = useSelector((state) => state.post);
+  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
+    (state) => state.post,
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,19 +20,23 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    // 스크롤 감지 함수
     function onScroll() {
-      console.log(
-        window.scrollY,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-      );
+      if (
+        window.scrollY + document.documentElement.clientHeight
+        > document.documentElement.scrollHeight - 300
+      ) {
+        if (hasMorePosts && !loadPostsLoading) {
+          dispatch({
+            type: LOAD_POSTS_REQUEST,
+          });
+        }
+      }
     }
     window.addEventListener('scroll', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [hasMorePosts, loadPostsLoading]);
 
   return (
     <AppLayout>

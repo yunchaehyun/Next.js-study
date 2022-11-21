@@ -13,6 +13,7 @@ import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
 import { REMOVE_POST_REQUEST } from '../reducers/post';
+import FollowButton from './FollowButton';
 
 // 게시글 구현 코드
 function PostCard({ post }) {
@@ -80,6 +81,7 @@ function PostCard({ post }) {
             <EllipsisOutlined />
           </Popover>,
         ]}
+        extra={id && <FollowButton post={post} />}
       >
         { isMounted ? (
           <Card.Meta
