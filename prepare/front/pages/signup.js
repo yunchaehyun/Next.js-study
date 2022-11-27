@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Form, Input, Checkbox, Button } from 'antd';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { Router } from 'next/router';
 import useInput from '../hooks/useInput';
 import AppLayout from '../components/AppLayout';
 import { SIGN_UP_REQUEST } from '../reducers/user';
@@ -13,7 +14,7 @@ function Signup() {
   `;
 
   const dispatch = useDispatch();
-  const { signUpLoading } = useSelector((state) => state.user);
+  const { signUpLoading, signUpDone, signUpError } = useSelector((state) => state.user);
 
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
@@ -54,6 +55,12 @@ function Signup() {
     });
   }, [password, passwordCheck, term]);
 
+  useEffect(() => {
+    if (signUpDone) {
+      Router.replace('/');
+    }
+  }, [signUpDone]);
+
   return (
     <AppLayout>
       <Head>
@@ -93,7 +100,7 @@ function Signup() {
             onChange={onChangePasswordCheck}
           />
           {passwordError && (
-          <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+            <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
           )}
         </div>
         <div>
