@@ -1,14 +1,11 @@
-const http = require("http");
+const express = require("express");
 
-const server = http.createServer((req, res) => {
-  console.log(req.url, req.method);
-  res.write("Hello node1");
-  res.write("Hello node2");
-  res.write("Hello node3");
-  res.write("Hello node4");
-  res.end("Hello node5");
+const app = express();
+
+app.get("/", (req, res) => {
+    res.send('hello express');
 });
 
-server.listen(3065, () => {
+app.listen(3065, () => {
   console.log("서버 실행 중");
 });
