@@ -30,15 +30,14 @@ import {
 } from '../reducers/user.js';
 
 function loginAPI(data) {
-  return axios.post('/api/login', data);
+  return axios.post('/user/login', data);
 }
 
 function* logIn(action) {
   try {
-    yield delay(1000);
     // axios를 통해 받은 결과
     // loginAPI(action.data) 라고 생각하면 됨
-    // const result = yield call(loginAPI, action.data);
+    const result = yield call(loginAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
       // 성공 결과는 result.data에 담겨 있음
@@ -54,7 +53,7 @@ function* logIn(action) {
 }
 
 function logOutAPI() {
-  return axios.post('/api/logout');
+  return axios.post('/user/logout');
 }
 
 function* logOut() {
@@ -74,7 +73,7 @@ function* logOut() {
 }
 
 function signUpAPI(data) {
-  return axios.post('http://localhost:3065/user', data);
+  return axios.post('/user', data);
 }
 
 function* signUp(action) {
