@@ -2,7 +2,7 @@ const passport = require("passport");
 const { Strategy: LocalStrategy } = require("passport-local");
 // db에 저장된 user 정보
 const { User } = require("../models");
-const bcrypt = require("bycrypt");
+const bcrypt = require("bcrypt");
 
 module.exports = () => {
   passport.use(

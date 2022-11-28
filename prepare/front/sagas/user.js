@@ -29,24 +29,21 @@ import {
   // eslint-disable-next-line import/extensions
 } from '../reducers/user.js';
 
-function loginAPI(data) {
+function logInAPI(data) {
   return axios.post('/user/login', data);
 }
 
 function* logIn(action) {
   try {
-    // axios를 통해 받은 결과
-    // loginAPI(action.data) 라고 생각하면 됨
-    const result = yield call(loginAPI, action.data);
+    const result = yield call(logInAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
-      // 성공 결과는 result.data에 담겨 있음
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOG_IN_FAILURE,
-      // 실패 결과는 err.response.data에 담겨 있음
       error: err.response.data,
     });
   }

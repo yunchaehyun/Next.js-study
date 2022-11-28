@@ -25,6 +25,7 @@ function UserProfile() {
       <Button onClick={onLogOut} loading={logOutLoading}>
         로그아웃
       </Button>
+
     </Card>
   );
 }

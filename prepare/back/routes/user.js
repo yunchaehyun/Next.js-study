@@ -18,7 +18,7 @@ router.post("/login", (req, res, next) => {
         console.error(loginErr);
         return next(loginErr);
       }
-      return res.json(user);
+      return res.status(200).json(user);
     });
   })(req, res, next);
 });
@@ -45,6 +45,13 @@ router.post("/", async (req, res, next) => {
     console.error(error);
     next(error);
   }
+});
+
+router.post("/logout", (req, res, next) => {
+  req.logout();
+  req.session.destroy();
+  res.send("ok");
+  console.log(req.user);
 });
 
 module.exports = router;
