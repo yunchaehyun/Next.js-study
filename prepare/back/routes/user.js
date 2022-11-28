@@ -11,8 +11,15 @@ router.post("/login", (req, res, next) => {
       return next(err);
     }
     if (info) {
-      return res.status(403).send(info.reason);
+      return res.status(401).send(info.reason);
     }
+    return req.login(user, async (loginErr) => {
+      if (loginErr) {
+        console.error(loginErr);
+        return next(loginErr);
+      }
+      return res.json(user);
+    });
   })(req, res, next);
 });
 
