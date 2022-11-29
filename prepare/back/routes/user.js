@@ -1,11 +1,44 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const { User } = require("../models");
+const express = require('express');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
 
-const passport = require("passport");
+const { User, Post } = require('../models');
+
 const router = express.Router();
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
+
+router.get('/', async (req, res, next) => { // GET /user
+    try {
+      if (req.user) {
+        const fullUserWithoutPassword = await User.findOne({
+          where: { id: req.user.id },
+          attributes: {
+            exclude: ['password']
+          },
+          include: [{
+            model: Post,
+            attributes: ['id'],
+          }, {
+            model: User,
+            as: 'Followings',
+            attributes: ['id'],
+          }, {
+            model: User,
+            as: 'Followers',
+            attributes: ['id'],
+          }]
+        })
+        res.status(200).json(fullUserWithoutPassword);
+      } else {
+        res.status(200).json(null);
+      }
+    } catch (error) {
+      console.error(error);
+   next(error);
+  }
+});
+
+router.post('/login',(req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
     if (err) {
       console.error(err);
       return next(err);
@@ -18,21 +51,38 @@ router.post("/login", (req, res, next) => {
         console.error(loginErr);
         return next(loginErr);
       }
-      return res.status(200).json(user);
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: user.id },
+        attributes: {
+          exclude: ['password']
+        },
+        include: [{
+          model: Post,
+          attributes: ['id'],
+        }, {
+          model: User,
+          as: 'Followings',
+          attributes: ['id'],
+        }, {
+          model: User,
+          as: 'Followers',
+          attributes: ['id'],
+        }]
+      })
+      return res.status(200).json(fullUserWithoutPassword);
     });
   })(req, res, next);
 });
 
-router.post("/", async (req, res, next) => {
-  // POST /user/
+router.post('/', async (req, res, next) => { // POST /user/
   try {
     const exUser = await User.findOne({
       where: {
         email: req.body.email,
-      },
+      }
     });
     if (exUser) {
-      return res.status(403).send("이미 사용중인 아이디입니다.");
+      return res.status(403).send('이미 사용 중인 아이디입니다.');
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     await User.create({
@@ -40,18 +90,18 @@ router.post("/", async (req, res, next) => {
       nickname: req.body.nickname,
       password: hashedPassword,
     });
-    res.status(201).send("OK");
+    res.status(201).send('ok');
   } catch (error) {
     console.error(error);
-    next(error);
+    next(error); // status 500
   }
 });
 
-router.post("/logout", (req, res, next) => {
+router.post('/logout', (req, res) => {
   req.logout();
   req.session.destroy();
-  res.send("ok");
-  console.log(req.user);
+  res.send('ok');
 });
+
 
 module.exports = router;

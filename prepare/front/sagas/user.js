@@ -55,15 +55,14 @@ function logOutAPI() {
 
 function* logOut() {
   try {
-    yield delay(1000);
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
-      // 성공 결과는 result.data에 담겨 있음
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOG_OUT_FAILURE,
-      // 실패 결과는 err.response.data에 담겨 있음
       error: err.response.data,
     });
   }
