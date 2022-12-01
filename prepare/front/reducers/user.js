@@ -1,6 +1,9 @@
 import produce from 'immer';
 
 export const initialState = {
+  loadUserLoading: false,
+  loadUserError: null,
+  loadUserDone: false,
   followLoading: false,
   followError: null,
   follownDone: false,
@@ -51,14 +54,9 @@ export const CHANGE_NICKNAME_FAILURE = 'CHANGE_NICKNAME_FAILURE';
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
-const dummyUser = (data) => ({
-  ...data,
-  nickname: '채현',
-  id: 1,
-  Posts: [{ id: 1 }],
-  Followings: [],
-  Followers: [{ nickname: '태희' }, { nickname: '진아' }, { nickname: '은석' }],
-});
+export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
+export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
 
 // action creater > 동적으로 액션 만들어줌
 // export 해줌
@@ -74,6 +72,20 @@ export const logoutRequestAction = () => ({
 
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    case LOAD_USER_REQUEST:
+      draft.loadUserLoading = true;
+      draft.loadUserError = null;
+      draft.loadUserDone = false;
+      break;
+    case LOAD_USER_SUCCESS:
+      draft.loadUserLoading = false;
+      draft.me = action.data;
+      draft.loadUserDone = true;
+      break;
+    case LOAD_USER_FAILURE:
+      draft.loadUserLoading = false;
+      draft.loadUserError = action.error;
+      break;
     case FOLLOW_REQUEST:
       draft.followLoading = true;
       draft.followError = null;

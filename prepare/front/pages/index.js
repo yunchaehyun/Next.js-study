@@ -4,6 +4,7 @@ import AppLayout from '../components/AppLayout';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
+import { LOAD_USER_REQUEST } from '../reducers/user';
 
 function Home() {
   // useSelector를 사용해 redux에 있는 상태 가져오기
@@ -14,6 +15,9 @@ function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch({
+      type: LOAD_USER_REQUEST,
+    });
     dispatch({
       type: LOAD_POSTS_REQUEST,
     });
