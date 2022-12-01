@@ -38,7 +38,7 @@ router.get('/', async (req, res, next) => { // GET /user
   }
 });
 
-router.post('/login', isNotLoggedIn, (req, res, next) => {
+router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       console.error(err);
@@ -75,7 +75,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
   })(req, res, next);
 });
 
-router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
+router.post('/', async (req, res, next) => { // POST /user/
   try {
     const exUser = await User.findOne({
       where: {

@@ -22,7 +22,8 @@ const app = express();
 passportConfig();
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3060",
+    credentials: true,
   })
 );
 
