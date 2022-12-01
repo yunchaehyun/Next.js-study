@@ -97,10 +97,11 @@ router.post('/', async (req, res, next) => { // POST /user/
   }
 });
 
+
 router.post('/logout', (req, res) => {
-  req.logout();
-  req.session.destroy();
-  res.send('ok');
+  req.logout(() => {
+    res.redirect('/');
+  });
 });
 
 
