@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { Post, Image, Comment, User, Hashtag } = require('../models');
+const { Post, Image, Comment, User, Hashtag } = require("../models");
 const post = require("../models/post");
 const { isLoggedIn } = require("./middlewares");
 
-router.post("/", isLoggedIn, async (req, res) => {
+router.post("/", isLoggedIn, async (req, res, next) => {
   try {
     await Post.create({
       content: req.body.content,
@@ -12,16 +12,25 @@ router.post("/", isLoggedIn, async (req, res) => {
     });
     const fullPost = await Post.findOne({
       where: { id: post.id },
-      include: [{
-        model: Image,
-      }, {
-        model: Comment,
-      
-      }, {
-        model: User, // 게시글 작성자
-      
-      },]
-    })
+      include: [
+        {
+          model: Image,
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User, //  작성자
+              attributes: ["id", "nickname"],
+            },
+          ],
+        },
+        {
+          model: User, // 게시글 작성자
+          attributes: ["id", "nickname"],
+        },
+      ],
+    });
     res.status(201).json(fullPost);
   } catch (error) {
     console.error(error);
@@ -39,13 +48,21 @@ router.post("/:postId/comment", isLoggedIn, async (req, res) => {
     }
     const comment = await Comment.create({
       content: req.body.content,
-      PostId: req.params.postId,
+      PostId: parseInt(req.params.postId),
       UserId: req.user.id,
     });
-    res.status(201).json(post);
+    const fullComment = await Comment.findOne({
+      where: { id: comment.id },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "nickname"],
+        },
+      ],
+    });
+    res.status(201).json(fullComment);
   } catch (error) {
     console.error(error);
-    next(error);
   }
 });
 
