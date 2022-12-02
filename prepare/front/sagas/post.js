@@ -186,11 +186,11 @@ function* watchAddComment() {
 }
 
 function* watchLikePost() {
-  yield takeLatest(ADD_COMMENT_REQUEST, likePost);
+  yield takeLatest(LIKE_POST_REQUEST, likePost);
 }
 
 function* watchUnLikePost() {
-  yield takeLatest(ADD_COMMENT_REQUEST, unlikePost);
+  yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
 }
 
 export default function* postSaga() {

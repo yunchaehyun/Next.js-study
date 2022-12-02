@@ -25,11 +25,10 @@ function PostCard({ post }) {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-  const onToggleLike = useCallback(() => {
-    setLiked((prev) => !prev);
-  }, []);
+  // const onToggleLike = useCallback(() => {
+  //   setLiked((prev) => !prev);
+  // }, []);
   // 댓글 창 여는 함수
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
@@ -58,7 +57,7 @@ function PostCard({ post }) {
       data: post.id,
     });
   }, []);
-
+  const liked = post.Likers.find((v) => v.id === id);
   // console.log(post.User);
   return (
     <div style={{ marginBottom: 10 }}>
@@ -66,15 +65,9 @@ function PostCard({ post }) {
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retweet" />,
-          liked ? (
-            <HeartTwoTone
-              twoToneColor="#eb2f96"
-              key="heart"
-              onClick={onToggleLike}
-            />
-          ) : (
-            <HeartOutlined key="heart" onClick={onToggleLike} />
-          ),
+          liked
+            ? <HeartTwoTone twoToneColor="#eb2f96" key="heart" onClick={onUnLike} />
+            : <HeartOutlined key="heart" onClick={onLike} />,
           <MessageOutlined key="comment" onClick={onToggleComment} />,
           <Popover
             key="ellipsis"
@@ -144,6 +137,7 @@ PostCard.propTypes = {
     createdAt: PropTypes.string,
     // 객체들의 배열 arrayof(object)
     Comments: PropTypes.arrayOf(PropTypes.object),
+    Likers: PropTypes.arrayOf(PropTypes.object),
     Images: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };
