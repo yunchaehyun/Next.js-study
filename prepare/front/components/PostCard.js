@@ -13,7 +13,11 @@ import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
 import FollowButton from './FollowButton';
-import { REMOVE_POST_REQUEST } from '../reducers/post';
+import {
+  REMOVE_POST_REQUEST,
+  LIKE_POST_REQUEST,
+  UNLIKE_POST_REQUEST,
+} from '../reducers/post';
 
 // 게시글 구현 코드
 function PostCard({ post }) {
@@ -33,6 +37,20 @@ function PostCard({ post }) {
   const id = useSelector((state) => state.user.me?.id);
   const { removePostLoading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+
+  const onLike = useCallback(() => {
+    dispatch({
+      type: LIKE_POST_REQUEST,
+      data: post.id,
+    });
+  });
+
+  const onUnLike = useCallback(() => {
+    dispatch({
+      type: UNLIKE_POST_REQUEST,
+      data: post.id,
+    });
+  });
 
   const onRemovePost = useCallback(() => {
     dispatch({
@@ -69,7 +87,8 @@ function PostCard({ post }) {
                       type="danger"
                       loading={removePostLoading}
                       onClick={onRemovePost}
-                    >삭제
+                    >
+                      삭제
                     </Button>
                   </>
                 ) : (
@@ -83,7 +102,7 @@ function PostCard({ post }) {
         ]}
         extra={id && <FollowButton post={post} />}
       >
-        { isMounted ? (
+        {isMounted ? (
           <Card.Meta
             avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
             title={post.User.nickname}
