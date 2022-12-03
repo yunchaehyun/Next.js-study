@@ -108,8 +108,17 @@ router.delete("/:postId/like", async (req, res, next) => {
   }
 });
 
-router.delete("/", (req, res) => {
-  res.json({ id: 1 });
+router.delete("/:postId", async (req, res, next) => {
+  try {
+    await Post.destroy({
+      where: { id: req.params.postId },
+      UserId: req.user.id,
+    });
+    res.status(200).json({ PostId: req.params.postId });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 module.exports = router;
