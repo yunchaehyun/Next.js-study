@@ -1,3 +1,4 @@
+import { DashboardTwoTone } from '@ant-design/icons';
 import axios from 'axios';
 import {
   all,
@@ -16,7 +17,6 @@ import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
-  generateDummyPost,
   LOAD_POSTS_FAILURE,
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
@@ -83,18 +83,15 @@ function* addPost(action) {
 }
 
 function removePostAPI(data) {
-  return axios.delete('/api/post', data, {
-    withCredentials: true,
-  });
+  return axios.delete(`/post/${data}`);
 }
 
 function* removePost(action) {
   try {
-    // const result = yield call(removePostAPI, action.data);
-    yield delay(1000);
+    const result = yield call(removePostAPI, action.data);
     yield put({
       type: REMOVE_POST_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
     yield put({
       type: REMOVE_POST_OF_ME,

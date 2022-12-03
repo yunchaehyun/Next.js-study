@@ -114,7 +114,7 @@ router.delete("/:postId", async (req, res, next) => {
       where: { id: req.params.postId },
       UserId: req.user.id,
     });
-    res.status(200).json({ PostId: req.params.postId });
+    res.status(200).json({ PostId: parseInt(req.params.postId) });
   } catch (error) {
     console.error(error);
     next(error);
