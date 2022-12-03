@@ -7,6 +7,7 @@ import { FOLLOW_REQUEST, UNFOLLOW_REQUEST } from '../reducers/user';
 function FollowButton({ post }) {
   const dispatch = useDispatch();
   const { me, followLoading, unfollowLoading } = useSelector((state) => state.user);
+
   const isFollowing = me?.Followings.find((v) => v.id === post.User.id);
   const onClickButton = useCallback(() => {
     if (isFollowing) {
@@ -21,7 +22,11 @@ function FollowButton({ post }) {
       });
     }
   }, [isFollowing]);
-
+  // 유저의 아이디가 같으면 null을 return
+  if (post.User.id === me.id) {
+    return null;
+  }
+  //
   return (
     <Button loading={followLoading || unfollowLoading} onClick={onClickButton}>
       {isFollowing ? '언팔로우' : '팔로우'}
