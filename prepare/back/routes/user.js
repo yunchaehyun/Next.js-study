@@ -133,11 +133,11 @@ router.patch("/nickname", isLoggedIn, async (req, res, next) => {
 
 router.patch("/:userId/follow", isLoggedIn, async (req, res, next) => {
   try {
-    const user = User.findOne({ where: { id: req.params.id } });
+    const user = User.findOne({ where: { UserId: req.params.id } });
     if (!user) {
       res.status(403).send("없는 사람을 팔로우하려고 하시네요!");
     }
-    await user.addFollowers(req.user.id);
+    await user.addFollowers({ UserId: req.params.id });
     res.status(200).json({
       id: req.params.userId,
     });
@@ -149,11 +149,11 @@ router.patch("/:userId/follow", isLoggedIn, async (req, res, next) => {
 
 router.delete("/:userId/follow", isLoggedIn, async (req, res, next) => {
   try {
-    const user = User.findOne({ where: { id: req.params.id } });
+    const user = User.findOne({ where: { UserId: req.params.id } });
     if (!user) {
       res.status(403).send("없는 사람을 팔로우하려고 하시네요!");
     }
-    await user.removeFollowers(req.user.id);
+    await user.removeFollowexrs({ UserId: req.params.id });
     res.status(200).json({
       id: req.params.userId,
     });
