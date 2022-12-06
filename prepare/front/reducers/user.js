@@ -72,6 +72,10 @@ export const LOAD_FOLLOWERS_REQUEST = 'LOAD_FOLLOWERS_REQUEST';
 export const LOAD_FOLLOWERS_SUCCESS = 'LOAD_FOLLOWERS_SUCCESS';
 export const LOAD_FOLLOWERS_FAILURE = 'LOAD_FOLLOWERS_FAILURE';
 
+export const REMOVE_FOLLOWER_REQUEST = 'REMOVE_FOLLOWER_REQUEST';
+export const REMOVE_FOLLOWER_SUCCESS = 'REMOVE_FOLLOWER_SUCCESS';
+export const REMOVE_FOLLOWER_FAILURE = 'REMOVE_FOLLOWER_FAILURE';
+
 // action creater > 동적으로 액션 만들어줌
 // export 해줌
 export const loginRequestAction = (data) => ({
@@ -238,6 +242,20 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       //   ...state.me,
       //   Posts: state.me.Posts.filter((v) => v.id !== action.data),
       // },
+      break;
+    case REMOVE_FOLLOWER_REQUEST:
+      draft.removeFollowerLoading = true;
+      draft.removeFollowerError = null;
+      draft.removeFollowerDone = false;
+      break;
+    case REMOVE_FOLLOWER_SUCCESS:
+      draft.removeFollowerLoading = false;
+      draft.me.Followers = draft.me.Followers.filter((v) => v.id !== action.data.UserId);
+      draft.removeFollowerDone = true;
+      break;
+    case REMOVE_FOLLOWER_FAILURE:
+      draft.removeFollowerLoading = false;
+      draft.removeFollowerError = action.error;
       break;
     default:
       break;

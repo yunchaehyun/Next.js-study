@@ -3,7 +3,7 @@ import { StopOutlined } from '@ant-design/icons';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { UNFOLLOW_REQUEST } from '../reducers/user';
+import { UNFOLLOW_REQUEST, REMOVE_FOLLOWER_REQUEST } from '../reducers/user';
 
 function FollowList({ header, data }) {
   const dispatch = useDispatch();
