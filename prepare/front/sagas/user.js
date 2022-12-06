@@ -115,7 +115,7 @@ function* signUp(action) {
 }
 
 function followAPI(data) {
-  return axios.post(`/user/${data}/follow`);
+  return axios.patch(`/user/${data}/follow`);
 }
 
 function* follow(action) {
