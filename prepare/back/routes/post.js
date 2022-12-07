@@ -3,6 +3,7 @@ const router = express.Router();
 const { Post, Image, Comment, User, Hashtag } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 const multer = require("multer");
+const path = require("path");
 
 router.post("/", isLoggedIn, async (req, res, next) => {
   // POST /post
@@ -122,6 +123,20 @@ router.delete("/:postId", async (req, res, next) => {
   }
 });
 
-router.post("/images", isLoggedIn, async (req, res, next) => {});
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      const basename = path.basename(file.originalname, ext);
+      done(null, basename + new Date().getTime() + ext);
+    },
+  }),
+  limits: { filesize: 20 * 1024 * 1024 },
+});
+
+router.post("/images", isLoggedIn, upload.array('image'), async (req, res, next) => {});
 
 module.exports = router;

@@ -48,7 +48,7 @@ function PostForm() {
         />
 
         <div>
-          <input type="file" multiple hidden ref={imageInput} />
+          <input type="file" name="image" multiple hidden ref={imageInput} />
           <Button onClick={onClickImageUpload}>이미지 업로드</Button>
           <Button type="primary" style={{ float: 'right' }} htmlType="submit" loading={addPostLoading}>
             게시글 작성
