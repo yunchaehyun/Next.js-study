@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Post, Image, Comment, User, Hashtag } = require("../models");
 const { isLoggedIn } = require("./middlewares");
+const multer = require("multer");
 
 router.post("/", isLoggedIn, async (req, res, next) => {
   // POST /post
@@ -120,5 +121,7 @@ router.delete("/:postId", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post("/images", isLoggedIn, async (req, res, next) => {});
 
 module.exports = router;
