@@ -3,7 +3,7 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line import/named
-import { addPostRequestAction } from '../reducers/post';
+import { addPostRequestAction, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
 // eslint-disable-next-line import/named
 import { useInput } from '../hooks/useInput';
 
@@ -31,6 +31,17 @@ function PostForm() {
     imageInput.current.click();
   }, [imageInput.current]);
 
+  const onChangeImage = useCallback((e) => {
+    console.log('images', e.target.files);
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append('image', f);
+    });
+    dispatch({
+      type: UPLOAD_IMAGES_REQUEST,
+      data: imageFormData,
+    });
+  });
   return (
     <>
       {/* 일단 기능 구현 하고 refacoring할 때, 성능 측정 해보면서 useMemo 사용해주기. */}
@@ -48,7 +59,7 @@ function PostForm() {
         />
 
         <div>
-          <input type="file" name="image" multiple hidden ref={imageInput} />
+          <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImage} />
           <Button onClick={onClickImageUpload}>이미지 업로드</Button>
           <Button type="primary" style={{ float: 'right' }} htmlType="submit" loading={addPostLoading}>
             게시글 작성

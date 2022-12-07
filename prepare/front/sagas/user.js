@@ -41,8 +41,10 @@ import {
   REMOVE_FOLLOWER_REQUEST,
   REMOVE_FOLLOWER_SUCCESS,
   REMOVE_FOLLOWER_FAILURE,
+
   // eslint-disable-next-line import/extensions
 } from '../reducers/user.js';
+import { UPLOAD_IMAGES_REQUEST, UPLOAD_IMAGES_SUCCESS } from '../reducers/post.js';
 
 function loadUserAPI() {
   return axios.get('/user');
@@ -239,6 +241,25 @@ function* removeFollower(action) {
   }
 }
 
+function uploadImagesAPI(data) {
+  return axios.delete('/post/images', data);
+}
+
+function* uploadImages(action) {
+  try {
+    const result = yield call(uploadImagesAPI, action.data);
+    yield put({
+      type: UPLOAD_IMAGES_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: REMOVE_FOLLOWER_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchLoadUser() {
   yield takeLatest(LOAD_USER_REQUEST, loadUser);
 }
@@ -280,6 +301,9 @@ function* watchLoadFollowers() {
 function* watchRemoveFollowers() {
   yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
 }
+function* watchUploadImages() {
+  yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
+}
 
 export default function* userSaga() {
   yield all([
@@ -293,5 +317,6 @@ export default function* userSaga() {
     fork(watchLoadFollowings),
     fork(watchLoadFollowers),
     fork(watchRemoveFollowers),
+    fork(watchUploadImages),
   ]);
 }
