@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-
+const path = require("path");
 const postRouter = require("./routes/post");
 const postsRouter = require("./routes/posts");
 const userRouter = require("./routes/user");
@@ -65,6 +65,7 @@ app.get("/posts", (req, res) => {
   ]);
 });
 
+app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 
