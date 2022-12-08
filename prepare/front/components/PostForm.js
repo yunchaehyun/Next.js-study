@@ -3,7 +3,7 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line import/named
-import { addPostRequestAction, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
+import { addPostRequestAction, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
 // eslint-disable-next-line import/named
 
 function PostForm() {
@@ -15,6 +15,12 @@ function PostForm() {
     setText(e.target.value);
   }, []);
 
+  const onRemoveImage = useCallback((index) => () => {
+    dispatch({
+      type: REMOVE_IMAGE,
+      data: index,
+    });
+  });
   useEffect(() => {
     if (addPostDone) {
       setText('');
@@ -62,7 +68,7 @@ function PostForm() {
             <div key={v} style={{ display: 'inline-block' }}>
               <img src={`http://localhost:3065/${v}`} style={{ width: '200px' }} alt={v} />
               <div>
-                <Button>제거</Button>
+                <Button onClick={onRemoveImage(i)}>제거</Button>
               </div>
             </div>
           ))}
