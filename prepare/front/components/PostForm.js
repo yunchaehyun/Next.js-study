@@ -3,7 +3,7 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line import/named
-import { addPostRequestAction, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
+import { addPostRequestAction, ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
 // eslint-disable-next-line import/named
 
 function PostForm() {
@@ -28,8 +28,19 @@ function PostForm() {
   }, [addPostDone]);
 
   const onSubmit = useCallback(() => {
-    dispatch(addPostRequestAction(text));
-  }, [text]);
+    if (!text || !text.trim()) {
+      return alert('게시글을 작성하세요.');
+    }
+    const formData = new FormData();
+    imagePaths.forEach((p) => {
+      formData.append('image', p);
+    });
+    formData.append('content', text);
+    return dispatch({
+      type: ADD_POST_REQUEST,
+      data: formData,
+    });
+  }, [text, imagePaths]);
 
   const imageInput = useRef();
   const onClickImageUpload = useCallback(() => {
