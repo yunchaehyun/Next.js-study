@@ -1,41 +1,72 @@
-import { useRouter } from 'next/router';
 import React from 'react';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
+
+import axios from 'axios';
 import { LOAD_POST_REQUEST } from '../../reducers/post';
-import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
+import PostCard from '../../components/PostCard';
+import AppLayout from '../../components/AppLayout';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 
 function Post() {
+  const { singlePost } = useSelector((state) => state.post);
   const router = useRouter();
   const { id } = router.query;
 
+  // if (router.isFallback) {
+  //   return <div>Loading...</div>
+  // }
+
   return (
-    <div>{id}번 게시글</div>
+    <AppLayout>
+      <Head>
+        <title>
+          {singlePost.User.nickname}
+          님의 글
+        </title>
+        <meta name="description" content={singlePost.content} />
+        <meta property="og:title" content={`${singlePost.User.nickname}님의 게시글`} />
+        <meta property="og:description" content={singlePost.content} />
+        <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : 'https://nodebird.com/favicon.ico'} />
+        <meta property="og:url" content={`https://nodebird.com/post/${id}`} />
+      </Head>
+      <PostCard post={singlePost} />
+    </AppLayout>
   );
 }
 
+// export async function getStaticPaths() {
+//   return {
+//     paths: [
+//       { params: { id: '1' } },
+//       { params: { id: '2' } },
+//       { params: { id: '3' } },
+//       { params: { id: '4' } },
+//     ],
+//     fallback: true,
+//   };
+// }
+
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
+  console.log(context);
   axios.defaults.headers.Cookie = '';
-  // 쿠키가 공유되는 보안 문제를 막기 위해 굉장히 중요함
   if (context.req && cookie) {
     axios.defaults.headers.Cookie = cookie;
   }
-  console.log(context.req.headers);
-
-  context.store.dispatch({
-    type: LOAD_POST_REQUEST,
-    // const { id } = router.query; 에서 id에 접근할 수 있음
-    data: context.params.id,
-  });
   context.store.dispatch({
     type: LOAD_MY_INFO_REQUEST,
   });
+  context.store.dispatch({
+    type: LOAD_POST_REQUEST,
+    data: context.params.id,
+  });
   context.store.dispatch(END);
-  console.log('getServerSideProps end');
   await context.store.sagaTask.toPromise();
+  return { props: {} };
 });
-  // 화면을 그리기 전에 실행됨
 
 export default Post;
