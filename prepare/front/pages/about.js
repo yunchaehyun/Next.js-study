@@ -17,12 +17,11 @@ export default function About() {
       </Head>
       <Card
         actions={[
-          <div key="twit">짹짹<br />{userInfo.Posts.length}</div>,
-          <div key="followings">팔로잉<br />{userInfo.Followings.length}</div>,
-          <div key="followers">팔로워<br />{userInfo.Followers.length}</div>,
+          <div key="twit">짹짹<br />{userInfo.Posts}</div>,
+          <div key="followings">팔로잉<br />{userInfo.Followings}</div>,
+          <div key="followers">팔로워<br />{userInfo.Followers}</div>,
         ]}
       >
-        게시글 수 : {userInfo.Posts}
         <Card.Meta
           avatar={<Avatar>{userInfo.nickname[0]}</Avatar>}
           title={userInfo.nickname}
