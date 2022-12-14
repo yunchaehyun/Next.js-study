@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import Head from 'next/head';
 import wrapper from '../store/configureStore';
 
