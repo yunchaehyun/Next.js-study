@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
+import axios from 'axios';
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
@@ -50,7 +51,12 @@ function Home() {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  console.log('getServerSideProps start');
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  // 쿠키가 공유되는 보안 문제를 막기 위해 굉장히 중요함
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
   console.log(context.req.headers);
 
   context.store.dispatch({
