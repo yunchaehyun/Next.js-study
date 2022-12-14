@@ -14,11 +14,7 @@ const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
   // middleware 배열안에 saga나 thunk 같은걸 넣음
   const middlewares = [sagaMiddleware];
-  const enhancer = process.env.NODE_ENV === 'production'
-    ? // 배포용
-    compose(applyMiddleware(...middlewares))
-    : // 개발용 devtool 연결
-    composeWithDevTools(applyMiddleware(...middlewares));
+  const enhancer = process.env.NODE_ENV === 'production' ? compose(applyMiddleware(...middlewares)) : composeWithDevTools(applyMiddleware(...middlewares));
   const store = createStore(reducer, enhancer);
   store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { END } from 'redux-saga';
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
@@ -15,10 +16,6 @@ function Home() {
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
     (state) => state.post,
   );
-
-  useEffect(() => {
-
-  }, []);
 
   useEffect(() => {
     function onScroll() {
@@ -44,21 +41,27 @@ function Home() {
   return (
     <AppLayout>
       {/* 게시물 작성 폼은 로그인한 사용자에게만 보이게 한다. */}
-      {me && <PostForm />}
+      {me && <PostForm>{' '}</PostForm>}
       {mainPosts.map((post) => (
-        <PostCard key={post.id} post={post} />
+        <PostCard key={post.id} post={post}>{' '}</PostCard>
       ))}
     </AppLayout>
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps((context) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  console.log('getServerSideProps start');
+  console.log(context.req.headers);
+
   context.store.dispatch({
     type: LOAD_USER_REQUEST,
   });
   context.store.dispatch({
     type: LOAD_POSTS_REQUEST,
   });
+  context.store.dispatch(END);
+  console.log('getServerSideProps end');
+  await context.store.sagaTask.toPromise();
 });
 // 화면을 그리기 전에 실행됨
 

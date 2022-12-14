@@ -39,26 +39,22 @@ function AppLayout({ children }) {
       <Global />
       <Menu mode="horizontal">
         <Menu.Item>
-          <Link href="/">노드버드</Link>
+          <Link href="/"><a>노드버드</a></Link>
         </Menu.Item>
         <Menu.Item>
-          <Link href="/profile">프로필</Link>
-        </Menu.Item>{' '}
+          <Link href="/profile"><a>프로필</a></Link>
+        </Menu.Item>
         <Menu.Item>
           <SearchInput enterButton />
         </Menu.Item>
         <Menu.Item>
-          <Link href="/signup">회원가입</Link>
+          <Link href="/signup"><a>회원가입</a></Link>
         </Menu.Item>
       </Menu>
       <Row gutter={8}>
         {/* xs: 모바일 md: 데스크탑 */}
         <Col xs={24} md={6}>
-          {me ? (
-            <UserProfile />
-          ) : (
-            <LoginFrom />
-          )}
+          {me ? <UserProfile /> : <LoginFrom />}
         </Col>
         <Col xs={24} md={12}>
           {children}

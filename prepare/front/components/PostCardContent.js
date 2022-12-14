@@ -13,7 +13,8 @@ function PostCardContent({ postData }) {
               href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }}
               as={`/hashtag/${v.slice(1)}`}
               key={v}
-            />
+            >{' '}
+            </Link>
           );
         }
         return v;
