@@ -188,4 +188,18 @@ router.get('/followings', isLoggedIn, async (req, res, next) => { // GET /user/f
   }
 });
 
+router.get('/follower/:userId', isLoggedIn, async (req, res, next) => { // GET /user/followings
+  try {
+    const user = await User.findOne({ where: { id: req.user.id }});
+    if (!user) {
+      res.status(403).send('없는 사람을 찾으려고 하시네요?');
+    }
+    const followings = await user.getFollowings();
+    res.status(200).json(followings);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;
